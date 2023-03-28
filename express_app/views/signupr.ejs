@@ -192,6 +192,7 @@
 		color: rgba(255,255,255,1);
 	}
 	#_____Username {
+		
 		position: absolute;
 		left: 41px;
 		top: 118px;
@@ -1700,10 +1701,9 @@ window.application = application;
 		<rect id="Rectangle_2" rx="0" ry="0" x="0" y="0" width="360" height="100">
 		</rect>
 	</svg>
-                <p>%= message %</p>
 	<div id="Take_a_Ride">
+		
 		<span>Take a Ride</span>
-
 	</div>
             <form class="auth__form mt-5" autocomplete="off" method="POST">
 			<div id="Group_15">
@@ -1741,20 +1741,21 @@ window.application = application;
 
 			</div>
 			<div id="_____Username">
-                        <input name="email" type="text" class="last_name form-control" placeholder="Priyam112" required="true">
+                        <input name="email" type="text" class="last_name form-control" label = "Email" placeholder="" required="true">
 			</div>
+			<br>
 			<div id="_____Name">
-                        <input name="name" type="text" class="first_name form-control" placeholder="Priyam Shah" required="true">
+                        <input name="name" type="text" class="first_name form-control" label="Name" placeholder="" required="true">
 			</div>
 			<div id="______91_Phone_number">
-                        <input name="phno" type="text" class="first_name form-control" placeholder="7738XXXXXX" >
+                        <input name="phno" type="text" class="first_name form-control" label="Phone Number" placeholder="+91-XXXXXXXXXX" required="true">
 			</div>
 			<svg class="Rectangle_3_A8_Rectangle_7">
 				<rect id="Rectangle_3_A8_Rectangle_7" rx="0" ry="0" x="0" y="0" width="278" height="40">
 				</rect>
 			</svg>
 			<div id="______________">
-                        <input name="password" type="password" class="last_name form-control" placeholder="*******" required="true">
+                        <input name="password" type="password" label="Password" class="last_name form-control" placeholder="*******" required="true">
 			</div>
 			<div id="Group_28">
 				<div id="Already_have_an_account_">
@@ -1762,7 +1763,7 @@ window.application = application;
 				</div>
 				<div id="Login">
 	
-					<a href="/login">    Login</a>
+					<a href="/login">Login</a>
 					
 				</div>
 			</div>
