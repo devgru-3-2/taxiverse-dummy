@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<link
+      rel="stylesheet"
+      type="text/css"
+      href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.23.0/maps/maps.css"
+	/>
 <title>5 Android – 2</title>
 <style id="applicationStylesheet" type="text/css">
 	button{
@@ -25,6 +31,11 @@
 	:root {
 		--web-view-ids: ID5_Android___2;
 	}
+
+	#map {
+        width: 100vw;
+        height: 100vh;
+    }
 	#ID5_Android___2 * {
 		margin: 0;
 		padding: 0;
@@ -1644,6 +1655,14 @@ var Application = function() {
 var application = new Application();
 window.application = application;
 </script>
+<script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.23.0/maps/maps-web.min.js"></script>
+    <script>
+      tt.setProductInfo("TaxiVerse", "0.0.1")
+      tt.map({
+        key: "MYv1xSyJLFhPtouljNo1uGYAaqIpD1uO",
+        container: "map",
+      })
+    </script>
 </head>
 <body>
 <div id="ID5_Android___2">
@@ -1703,6 +1722,7 @@ window.application = application;
 				      <input name="to" type="text" class="first_name form-control" placeholder="KJSCE,Vidyavihar,Mumbai" require="true">
 			</div>
 		</form>
+		<div id="map" class="map"></div>
 </div>
 </body>
 </html>

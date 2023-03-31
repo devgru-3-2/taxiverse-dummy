@@ -28,6 +28,10 @@ module.exports=(app)=>{
         res.render("signupr",{message:null});
         }
     });
+    /*app.get("/login", (req,res) => {
+        res.redirect("login");
+
+    });*/
 
     app.post("/signupr",async (req,res)=>{
         const name=req.body.name;
@@ -39,7 +43,6 @@ module.exports=(app)=>{
         const vehicleNo="";
         // Creating identity
         var identity=createIdentity();
-
         console.log(identity);
         const publicKey=identity.publicKey;
         const privateKey=identity.privateKey;
@@ -67,9 +70,10 @@ module.exports=(app)=>{
         req.session.username=username;
         req.session.privateKey=privateKey;
         req.session.userType=userType;
-        
+
         res.redirect("/homer");
-        
 });
+
+    
 
 }
