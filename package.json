@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "@alaskaairux/auro-button": "^6.5.0",
     "@googlemaps/google-maps-services-js": "^3.3.16",
+    "@tomtom-international/web-sdk-maps": "^6.23.0",
     "secp256k1": "^4.0.3"
   },
   "devDependencies": {
-    "@truffle/hdwallet-provider": "^2.1.9"
+    "@truffle/hdwallet-provider": "^1.7.0"
   }
 }
