@@ -21,7 +21,7 @@ contract User{
     mapping ( string  => Details)  detailsMap;
     mapping ( string => Rides[]) finalBid;
     
-    function get(string username) view returns(string,string,string,string,string,string,string){
+    function get(string username)  returns(string,string,string,string,string,string,string){
     
         Details memory currentUser=detailsMap[username];
         return (
