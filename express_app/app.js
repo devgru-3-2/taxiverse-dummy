@@ -9,6 +9,7 @@ const mongoose=require('mongoose');
 const signupr=require("./controllers/signupr");
 const signupd=require("./controllers/signupd");
 const login=require("./controllers/login");
+const path=require("path");
 const homer=require("./controllers/homer");
 const homed=require("./controllers/homed");
 const test=require("./controllers/test");
@@ -22,8 +23,12 @@ const CurrentRide=require("./models/Auction");
 mongoose.connect('mongodb+srv://asaprov:Bharath%40123@cluster0.hjsqp4v.mongodb.net/test', {useNewUrlParser: true},{ useUnifiedTopology: true });
 
 const app=express();
-
 app.set('view engine','ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
 app.use(session({
     key:"user_sid",
     secret:"sometext",
@@ -35,7 +40,7 @@ app.use(session({
    })*/
 
 }));
-app.use(express.static('./public'));
+
 app.use(bparser.urlencoded({extended:true}));
 app.use(bparser.json());
 

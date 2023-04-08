@@ -11,7 +11,7 @@ const abi=require("../user_contract").abi2;
 const address=require("../user_contract").address2;
 
 
-
+const app = express();
 const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
 
 const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );

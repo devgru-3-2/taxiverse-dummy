@@ -52,7 +52,6 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const private_keys = [
   process.env.PRIVATE_KEY_0,
-  process.env.PRIVATE_KEY_1,
  
 ]
 
@@ -101,7 +100,7 @@ module.exports = {
         phrase: MNEMONIC
       },
       providerOrUrl: `https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e`,
-      numberOfAdress: 2,
+      numberOfAdress: 1,
       shareNonce: true,
     }
 

@@ -3,25 +3,6 @@ const abi2=[
 		"constant": false,
 		"inputs": [
 			{
-				"name": "rider",
-				"type": "string"
-			}
-		],
-		"name": "getFinalBid",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "name",
 				"type": "string"
 			},
@@ -57,29 +38,11 @@ const abi2=[
 		"name": "set",
 		"outputs": [],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"type": "function",
+		"stateMutability": "nonpayable"
 	},
 	{
 		"constant": false,
-		"inputs": [
-			{
-				"name": "driver",
-				"type": "string"
-			},
-			{
-				"name": "rider",
-				"type": "string"
-			}
-		],
-		"name": "setFinalBid",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
 		"inputs": [
 			{
 				"name": "username",
@@ -118,12 +81,49 @@ const abi2=[
 			}
 		],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"type": "function",
+		"stateMutability": "nonpayable"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "rider",
+				"type": "string"
+			}
+		],
+		"name": "getFinalBid",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"type": "function",
+		"stateMutability": "nonpayable"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "driver",
+				"type": "string"
+			},
+			{
+				"name": "rider",
+				"type": "string"
+			}
+		],
+		"name": "setFinalBid",
+		"outputs": [],
+		"payable": false,
+		"type": "function",
+		"stateMutability": "nonpayable"
 	}
 ];
 
-const address2="0xe4beb9e6a630f7d7c15e77468fb8047b6a902938"; //user contract address
-
+const address2="0x295226f2DAE77a1c910F4Ad67C9F45BEECff25b4"; //user contract address
 module.exports.abi2=abi2;
 module.exports.address2=address2;
+

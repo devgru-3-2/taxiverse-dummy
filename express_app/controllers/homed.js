@@ -68,7 +68,7 @@ module.exports=(app)=>{
             value:value,
             bidder:req.session.username,
             vehicle:response['2'],
-            vehicaleNo:response['3']
+            vehicleNo:response['3']
         }
         const insertValue=await CurrentRide.findOneAndUpdate({username:customerUsername},{$push:{bids:bid}});
         console.log(insertValue);

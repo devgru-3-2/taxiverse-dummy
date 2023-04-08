@@ -46,10 +46,14 @@ module.exports=(app)=>{
             status:"AVL",
             bids:[]
         });
-        currentRide.save((err)=>{
-            if(err)
-            console.log(err);
+        await currentRide.save()
+        .then(() => {
+                console.log("Current ride saved successfully.");
+            })
+        .catch((err) => {
+        console.error(err);
         });
+
 
         req.session.On=true;
         res.redirect("/currentbids");
