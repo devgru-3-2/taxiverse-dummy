@@ -46,10 +46,14 @@ module.exports=(app)=>{
             status:"AVL",
             bids:[]
         });
-        currentRide.save((err)=>{
-            if(err)
-            console.log(err);
+        await currentRide.save()
+        .then(() => {
+                console.log("Current ride saved successfully.");
+            })
+        .catch((err) => {
+        console.error(err);
         });
+
 
         req.session.On=true;
         res.redirect("/currentbids");
@@ -95,8 +99,8 @@ module.exports=(app)=>{
         if(req.session.username!==undefined){
         const getBidder=await CurrentRide.find({username:req.session.username});
         const provider=new HDwalletprovider(
-            "840e1fcf5b316c485b3785a360f601991ac08d8fcfc9f02fb314443419d3eb03",
-            'https://goerli.infura.io/v3/584ddee4afe84ca1bf3a5ba437a77dbc'
+            "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
+            'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
          );
         const web3=new Web3(provider);
     
@@ -128,8 +132,8 @@ module.exports=(app)=>{
         const currentUser= await CurrentRide.findOneAndUpdate({username:req.session.username},{status:"MET"});
         const getBidder=await CurrentRide.find({username:req.session.username});
         const provider=new HDwalletprovider(
-            "840e1fcf5b316c485b3785a360f601991ac08d8fcfc9f02fb314443419d3eb03",
-            'https://goerli.infura.io/v3/584ddee4afe84ca1bf3a5ba437a77dbc'
+            "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
+            'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
          );
         const web3=new Web3(provider);
     

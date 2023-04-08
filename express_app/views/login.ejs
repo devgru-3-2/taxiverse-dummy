@@ -216,6 +216,28 @@
 		bottom: 100%;
 	}
 	}
+	button{
+  padding: 25px 30px;
+  background-color: #050801;
+  color: #03e9f4;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  letter-spacing: 4px;
+  overflow: hidden;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+button:hover{
+    background: #03e9f4;
+    color: #050801;
+    box-shadow: 0 0 5px #03e9f4,
+                0 0 25px #03e9f4,
+                0 0 50px #03e9f4,
+                0 0 200px #03e9f4;
+     -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
 
 	/*#Login {
 		position: absolute;
@@ -1781,10 +1803,10 @@ window.application = application;
 </head>
 <body>
 	<!--form method="POST"-->
-<!--div id="ID5_Android___1"-->
+<!--div id="ID5_Android___1">
 	<div id="Login">
 		<span>Login</span>
-	</div>
+	</div-->
 	<!--div id="Group_15">
 		<svg class="Box">
 			<rect id="Box" rx="0" ry="0" x="0" y="0" width="24" height="24">
@@ -1826,22 +1848,22 @@ window.application = application;
 	</div-->
 	<div class="login-box">
 		<h2>Login</h2>
-		<form method="post">
+		<form method="POST">
 		  <div class="user-box">
-			<input type="text" name="email" required="">
+			<input type="name" name="email" required="true"/>
 			<label>Username</label>
 		  </div>
 		  <div class="user-box">
-			<input type="password" name="password" required="">
+			<input type="password" name="password" required="true"/>
 			<label>Password</label>
 		  </div>
-		  <a href="#">
 			<span></span>
 			<span></span>
 			<span></span>
 			<span></span>
-			Submit
-		  </a>
+			<button name = "submit" type = "submit" href="/express_app/controllers/login.js">
+			Login
+			</button>
 		</form>
 	</div>
 <!--/div-->

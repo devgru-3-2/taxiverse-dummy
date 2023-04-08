@@ -11,8 +11,8 @@ const abi=require("../user_contract").abi2;
 const address=require("../user_contract").address2;
 
 
-
-const testnet = 'https://goerli.infura.io/v3/584ddee4afe84ca1bf3a5ba437a77dbc';
+const app = express();
+const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
 
 const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );
 const SRC_TOKEN = "ETH";
@@ -50,8 +50,8 @@ const REF_ADDRESS = "0x483C5100C3E544Aef546f72dF4022c8934a6945E";
 module.exports=(app)=>{
    app.get("/test", async (req,res)=>{
       const provider=new HDwalletprovider(
-          "6971A7AEFA1B6643311ADD7214B58CAC41E257FB17F47CD4D5C529902FAD00A7",
-          'https://goerli.infura.io/v3/584ddee4afe84ca1bf3a5ba437a77dbc'
+         "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
+         'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
        );
   
        const web3=new Web3(provider);
@@ -84,7 +84,7 @@ module.exports=(app)=>{
    console.log(requestData);
    // console.log( web3.utils.toWei(fare,"ether"),web3.utils.toHex(web3.utils.toWei(fare,"ether")));
    //signs trans
-      const sender="6971A7AEFA1B6643311ADD7214B58CAC41E257FB17F47CD4D5C529902FAD00A7";
+      const sender="0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f";
        const trans = await web3.eth.accounts.signTransaction(
          requestData.data
        ,sender);        
@@ -111,7 +111,7 @@ module.exports=(app)=>{
   });
 
   app.get("/kyber2",async(req,res)=>{
-   const testnet = 'https://ropsten.infura.io/v3/da4d3f3021fd4ada9c1e70a4b607e74f';
+   const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
    const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );   
    
    let results = await getRates(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS, SRC_QTY_WEI);
@@ -151,9 +151,9 @@ const broadcast=async (from, to, txData, value, gasLimit)=>{
       nonce: txCount
    };
 
-   var tx = new Tx(rawTx,{ chain:'ropsten',hardfork: 'petersburg'});
+   var tx = new Tx(rawTx,{ chain:'goerli',hardfork: 'petersburg'});
    console.log(rawTx);
-   const keyBuffer=Buffer.from("6971A7AEFA1B6643311ADD7214B58CAC41E257FB17F47CD4D5C529902FAD00A7","hex");
+   const keyBuffer=Buffer.from("0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f","hex");
    tx.sign(keyBuffer);
    const serializedTx = tx.serialize();
    console.log(serializedTx);

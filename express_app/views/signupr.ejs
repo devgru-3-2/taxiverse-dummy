@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>A Android – 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="https://unpkg.com/@alaskaairux/design-tokens@latest/dist/tokens/CSSCustomProperties.css" />
     <link rel="stylesheet" href="https://unpkg.com/@alaskaairux/webcorestylesheets@latest/dist/bundled/essentials.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" data-tag="font" />
@@ -27,6 +28,7 @@
       body {
         margin: 0;
         padding: 0;
+        background: linear-gradient(to top, #1c92d2, #f2fcfe);
       }
 
       :root {
@@ -39,6 +41,7 @@
       }
 
       #A_Android___4 {
+        top:80px;
     position: absolute;
     box-sizing: border-box;
     transform: translateX(-50%);
@@ -1246,6 +1249,7 @@
           if (isNaN(desiredScale)) {
             desiredScale = 1;
           }
+          desiredScale = 1.00;
           desiredScale = self.getShortNumber(desiredScale);
           self.updateSliderValue(desiredScale);
           transform = self.getCSSPropertyValueForElement(view.id, "transform");
@@ -1703,7 +1707,7 @@
     </script>
   </head>
   <body>
-    <div id="A_Android___4" style="transform: translateX(-50%) translateY(-50%) scale(1.35); top: 50%; left: 50%;">
+    <div id="A_Android___4">
       <!--svg class="Rectangle_2">
         <rect id="Rectangle_2" rx="0" ry="0" x="0" y="0" width="360" height="100"></rect>
       </svg-->
