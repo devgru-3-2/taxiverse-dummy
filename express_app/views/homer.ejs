@@ -4,7 +4,11 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs&libraries=places,distance_matrix,directions,geocoding&callback=initMap">
+</script>
+
+
 
 
 <title>5 Android – 2</title>
@@ -1654,150 +1658,110 @@ var Application = function() {
 var application = new Application();
 window.application = application;
 </script>
-<script type="text/javascript">
-var placesFrom = places({
-  appId: '1ROKNZ9AWW',
-  apiKey: 'a975252854f8b8d4cd6bdaf87b598190',
-  container: document.querySelector('#from'),
-  templates: {
-    value: function(suggestion) {
-      return suggestion.name;
-    }
-  }
-}).configure({
-  type: 'city',
-  language: 'en',
-  countries: ['us']
-});
 
-//Initialize the "To" field
-var placesTo = places({
-  appId: '1ROKNZ9AWW',
-  apiKey: 'a975252854f8b8d4cd6bdaf87b598190',
-  container: document.querySelector('#to'),
-  templates: {
-    value: function(suggestion) {
-      return suggestion.name;
-    }
-  }
-}).configure({
-  type: 'city',
-  language: 'en',
-  countries: ['us']
-});
-
-//Bind the selected suggestion to the "From" field
-placesFrom.on('change', function resultSelected(e) {
-  document.querySelector('#from').value = e.suggestion.name;
-});
-
-//Bind the selected suggestion to the "To" field
-placesTo.on('change', function resultSelected(e) {
-  document.querySelector('#to').value = e.suggestion.name;
-});
-</script>
-<script type="text/javascript">
-import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch';
-
-import '@algolia/autocomplete-theme-classic';
-
-const searchClient = algoliasearch(
-  '1ROKNZ9AWW',
-  'a975252854f8b8d4cd6bdaf87b598190'
+<script>
+	var fromAutocomplete = new google.maps.places.Autocomplete(
+  document.getElementById('from-input')
+);
+var toAutocomplete = new google.maps.places.Autocomplete(
+  document.getElementById('to-input')
 );
 
-autocomplete({
-  container: '#autocomplete',
-  placeholder: 'Search for products',
-  getSources({ query }) {
-    return [
-      {
-        sourceId: 'products',
-        getItems() {
-          return getAlgoliaResults({
-            searchClient,
-            queries: [
-              {
-                indexName: 'instant_search',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  attributesToSnippet: ['name:10', 'description:35'],
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        templates: {
-          item({ item, components, html }) {
-            return html`<div class="aa-ItemWrapper">
-              <div class="aa-ItemContent">
-                <div class="aa-ItemIcon aa-ItemIcon--alignTop">
-                  <img
-                    src="${item.image}"
-                    alt="${item.name}"
-                    width="40"
-                    height="40"
-                  />
-                </div>
-                <div class="aa-ItemContentBody">
-                  <div class="aa-ItemContentTitle">
-                    ${components.Highlight({
-                      hit: item,
-                      attribute: 'name',
-                    })}
-                  </div>
-                  <div class="aa-ItemContentDescription">
-                    ${components.Snippet({
-                      hit: item,
-                      attribute: 'description',
-                    })}
-                  </div>
-                </div>
-                <div class="aa-ItemActions">
-                  <button
-                    class="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
-                    type="button"
-                    title="Select"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    class="aa-ItemActionButton"
-                    type="button"
-                    title="Add to cart"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M19 5h-14l1.5-2h11zM21.794 5.392l-2.994-3.992c-0.196-0.261-0.494-0.399-0.8-0.4h-12c-0.326 0-0.616 0.156-0.8 0.4l-2.994 3.992c-0.043 0.056-0.081 0.117-0.111 0.182-0.065 0.137-0.096 0.283-0.095 0.426v14c0 0.828 0.337 1.58 0.879 2.121s1.293 0.879 2.121 0.879h14c0.828 0 1.58-0.337 2.121-0.879s0.879-1.293 0.879-2.121v-14c0-0.219-0.071-0.422-0.189-0.585-0.004-0.005-0.007-0.010-0.011-0.015zM4 7h16v13c0 0.276-0.111 0.525-0.293 0.707s-0.431 0.293-0.707 0.293h-14c-0.276 0-0.525-0.111-0.707-0.293s-0.293-0.431-0.293-0.707zM15 10c0 0.829-0.335 1.577-0.879 2.121s-1.292 0.879-2.121 0.879-1.577-0.335-2.121-0.879-0.879-1.292-0.879-2.121c0-0.552-0.448-1-1-1s-1 0.448-1 1c0 1.38 0.561 2.632 1.464 3.536s2.156 1.464 3.536 1.464 2.632-0.561 3.536-1.464 1.464-2.156 1.464-3.536c0-0.552-0.448-1-1-1s-1 0.448-1 1z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>`;
-          },
-        },
-      },
-    ];
-  },
+fromAutocomplete.addListener('place_changed', function() {
+  checkBothFieldsFilled();
 });
+toAutocomplete.addListener('place_changed', function() {
+  checkBothFieldsFilled();
+});
+
+function checkBothFieldsFilled() {
+  var fromLocation = document.getElementById('from-input').value;
+  var toLocation = document.getElementById('to-input').value;
+
+  if (fromLocation && toLocation) {
+    calculateRoute(fromLocation, toLocation);
+  }
+}
+
+
+
+</script>
+
+<script>
+		function calculatePriceRange(dist, cpk, min_fare, locality) {
+  const bf = 40; // Set the base fare to a constant value of 40
+  let total_fare = 0;
+
+  // Calculate the fare for the first kilometer
+  total_fare = bf + cpk;
+
+  // Check if the total fare is less than the minimum fare
+  if (total_fare < min_fare) {
+    total_fare = min_fare;
+  }
+
+  // Set the cost per kilometer based on the distance
+  if (dist <= 5) {
+    cpk = 10;
+  } else if (dist <= 10) {
+    cpk = 8;
+  } else if (dist <= 15) {
+    cpk = 7;
+  } else {
+    cpk = 7;
+  }
+
+  // Calculate the total fare based on the distance and cost per kilometer
+  total_fare += cpk * dist;
+
+  // Adjust the fare based on locality
+  if (locality === 'suburb') {
+    total_fare *= 1.05; // Increase fare by 5%
+  } else if (locality === 'countryside') {
+    total_fare *= 0.95; // Decrease fare by 5%
+  }
+
+  // Calculate the price range based on a percentage of the calculated fare
+  const upper_limit = total_fare * 1.2; // Set the upper limit to 120% of the calculated fare
+  const price_range = [total_fare, upper_limit];
+
+  // Return the optimal cost range as an array
+  return price_range;
+}
+
+
+	function calculateFare() {
+  // Get the from and to addresses entered by the rider
+  const from = document.getElementById('from-input').value;
+  const to = document.getElementById('to-input').value;
+
+  // Call the Maps Javascript API service to get the distance and locality
+  const service = new google.maps.DistanceMatrixService();
+  service.getDistanceMatrix({
+    origins: [from],
+    destinations: [to],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.METRIC,
+    avoidHighways: false,
+    avoidTolls: false,
+  }, (response, status) => {
+    if (status === 'OK') {
+      const distance = response.rows[0].elements[0].distance.value / 1000; // Distance in km
+      const locality = response.destinationAddresses[0].split(',').slice(-1)[0].trim(); // Locality of the destination address
+
+      // Call the calculateFare function to get the fare price range
+      const priceRange = calculatePriceRange(distance, locality);
+
+      // Update the button text with the fare price range
+      const fareBtn = document.getElementById('calculate-fare-btn');
+      fareBtn.innerHTML = `Price Range: Rs. ${priceRange[0]} - Rs. ${priceRange[1]}`;
+      fareBtn.disabled = true; // Disable the button
+    } else {
+      alert(`Error: ${status}`);
+    }
+  });
+}
+
 </script>
 </head>
 <body>
@@ -1834,7 +1798,7 @@ autocomplete({
 				<span>From</span>
 			</div>
 			<div id="_____From">
-		       <input name="from" id = "from" type="text" class="first_name form-control" placeholder="Dheeraj Darshan,Jogeshwari East,Mumbai" required="true">
+		       <input name="from" id = "from-input" type="text" class="first_name form-control" placeholder="Dheeraj Darshan,Jogeshwari East,Mumbai" required="true">
 			</div>
 			<svg class="Rectangle_3_A12_Rectangle_3">
 				<rect id="Rectangle_3_A12_Rectangle_3" rx="0" ry="0" x="0" y="0" width="278" height="40">
@@ -1855,12 +1819,14 @@ autocomplete({
 				</div>
 			</div>
 			<div id="_____To">
-				      <input name="to" id = "to" type="text" class="first_name form-control" placeholder="KJSCE,Vidyavihar,Mumbai" require="true">
+				      <input name="to" id = "to-input" type="text" class="first_name form-control" placeholder="KJSCE,Vidyavihar,Mumbai" require="true">
 			</div>
-			<div id="autocomplete"></div>
+
+			<button id="calculate-fare-btn" onclick="calculateFare()">Calculate Fare</button>
+
+
 
 		</form>
-		<div id="map" class="map"></div>
 </div>
 </body>
 </html>
