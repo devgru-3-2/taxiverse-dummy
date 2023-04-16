@@ -1660,12 +1660,20 @@ window.application = application;
 </script>
 
 <script>
-	var fromAutocomplete = new google.maps.places.Autocomplete(
-  document.getElementById('from-input')
-);
-var toAutocomplete = new google.maps.places.Autocomplete(
-  document.getElementById('to-input')
-);
+var fromInput = document.getElementById('from-input');
+var fromAutocomplete = new google.maps.places.Autocomplete(fromInput);
+var toInput = document.getElementById('to-input');
+var toAutocomplete = new google.maps.places.Autocomplete(toInput);
+
+fromAutocomplete.addListener('place_changed', function() {
+  var place = fromAutocomplete.getPlace();
+  console.log(place.name);
+});
+
+toAutocomplete.addListener('place_changed', function() {
+  var place = toAutocomplete.getPlace();
+  console.log(place.name);
+});
 
 fromAutocomplete.addListener('place_changed', function() {
   checkBothFieldsFilled();
