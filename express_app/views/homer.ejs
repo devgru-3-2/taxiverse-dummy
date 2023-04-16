@@ -4,9 +4,7 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs&libraries=places,distance_matrix,directions,geocoding&callback=initMap">
-</script>
+
 
 
 
@@ -1658,6 +1656,9 @@ var Application = function() {
 var application = new Application();
 window.application = application;
 </script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs&libraries=places&callback=initAutocomplete">
+</script>
 
 <script>
 var fromInput = document.getElementById('from-input');
@@ -1674,7 +1675,9 @@ toAutocomplete.addListener('place_changed', function() {
   var place = toAutocomplete.getPlace();
   console.log(place.name);
 });
+</script>
 
+<script>
 fromAutocomplete.addListener('place_changed', function() {
   checkBothFieldsFilled();
 });
