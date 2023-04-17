@@ -1,1843 +1,1266 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
 <head>
-<meta charset="utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <meta charset="UTF-8">
+  <title>TaxiVerse-Rider-Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<!-- <link rel="stylesheet" href="./style.css"> -->
+
+<style type="text/css">
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+:root {
+  --theme-bg-color: rgba(16 18 27 / 40%);
+  --border-color: rgba(113 119 144 / 25%);
+  --theme-color: #f9fafb;
+  --inactive-color: rgb(113 119 144 / 78%);
+  --body-font: "Poppins", sans-serif;
+  --hover-menu-bg: rgba(12 15 25 / 30%);
+  --content-title-color: #999ba5;
+  --content-bg: rgb(146 151 179 / 13%);
+  --button-inactive: rgb(249 250 251 / 55%);
+  --dropdown-bg: #21242d;
+  --dropdown-hover: rgb(42 46 60);
+  --popup-bg: rgb(22 25 37);
+  --search-bg: #14162b;
+  --overlay-bg: rgba(36, 39, 59, 0.3);
+  --scrollbar-bg: rgb(1 2 3 / 40%);
+}
+
+.light-mode {
+  --theme-bg-color: rgb(255 255 255 / 31%);
+  --theme-color: #3c3a3a;
+  --inactive-color: #333333;
+  --button-inactive: #3c3a3a;
+  --search-bg: rgb(255 255 255 / 31%);
+  --dropdown-bg: #f7f7f7;
+  --overlay-bg: rgb(255 255 255 / 30%);
+  --dropdown-hover: rgb(236 236 236);
+  --border-color: rgb(255 255 255 / 35%);
+  --popup-bg: rgb(255 255 255);
+  --hover-menu-bg: rgba(255 255 255 / 35%);
+  --scrollbar-bg: rgb(255 253 253 / 57%);
+  --content-title-color: --theme-color;
+}
+
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--body-font);
+  background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2em;
+  width: 100%;
+  height: 100vh;
+}
+@media screen and (max-width: 480px) {
+  body {
+    padding: 0.8em;
+  }
+}
+
+.video-bg {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.video-bg video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+img {
+  max-width: 100%;
+}
+
+.dark-light {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  background-color: var(--dropdown-bg);
+  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 50%;
+  z-index: 3;
+  cursor: pointer;
+}
+.dark-light svg {
+  width: 24px;
+  flex-shrink: 0;
+  fill: #ffce45;
+  stroke: #ffce45;
+  transition: 0.5s;
+}
+
+.light-mode .dark-light svg {
+  fill: transparent;
+  stroke: var(--theme-color);
+}
+.light-mode .profile-img {
+  border: 2px solid var(--theme-bg-color);
+}
+.light-mode .content-section ul {
+  background-color: var(--theme-bg-color);
+}
+.light-mode .pop-up__title {
+  border-color: var(--theme-color);
+}
+.light-mode .dropdown.is-active ul {
+  background-color: rgba(255, 255, 255, 0.94);
+}
+
+body.light-mode:before,
+body.light-mode .video-bg:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 100%);
+  -webkit-backdrop-filter: saturate(3);
+          backdrop-filter: saturate(3);
+}
+
+.app {
+  background-color: var(--theme-bg-color);
+  max-width: 1250px;
+  max-height: 860px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  font-size: 15px;
+  font-weight: 500;
+}
+.controls {
+  margin-top: 33px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+.card {
+max-width: 150px;
+min-height: 247px;
+display: flex;
+top: 90px;
+right: -28px;
+z-index: 1;
+flex-direction: column;
+position: relative;
+max-width: 245px;
+height: 123px;
+padding: 32px;
+border: 1px solid rgba(255, 255, 255, 4.25);
+border-radius: 20px;
+background-color: rgb(59 160 205 / 4%);
+box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(13px);
+justify-content: space-evenly;
+align-items: flex-start;
+flex-wrap: nowrap;
+align-content: center;
+}
+#origin-input, #destination-input {
+  background-color: #14162b;
+  font-family: 'Poppins';
+  color: #fff;
+  font-size: 15px;
+  margin-top: 31px;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 210px;
+}
+
+#origin-input:focus,
+#destination-input:focus {
+  border-color: #4d90fe;
+}
+
+#mode-selector {
+  color: #fff;
+    display: flex;
+    background-color: #4d90fe;
+    border-radius: 5px;
+    margin-left: 7px;
+    width: 207px;
+    padding: 5px 11px 0px 11px;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-direction: row;
+}
+
+#mode-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 58px;
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 30px;
+  white-space: nowrap;
+}
+@media screen and (max-width: 480px) {
+  .header {
+    padding: 0 16px;
+  }
+}
+.header-menu {
+  display: flex;
+    flex-basis: 121px;
+    margin-left: 339px;
+    /* width: 104px; */
+    align-items: center;
+    font-size: 16px;
+    color: #f5f5f5d9;
+}
+
+.header-menu a {
+  padding: 20px 30px;
+  text-decoration: none;
+  color: var(--inactive-color);
+  border-bottom: 2px solid transparent;
+  transition: 0.3s;
+}
+#map {
+  height: 654px;
+  width: auto;
+  top: 22px;
+  /* bottom: 10px; */
+  left: -2px;
+  border-radius: 6px;
+  display: flex;
+  margin-top: -20px;
+  right: 0px;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
 
 
 
 
 
-<title>5 Android – 2</title>
-<style id="applicationStylesheet" type="text/css">
-	button{
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-	}
-	input{
-		height:41px;
-		width:275px;
-	}
-	body {
-		margin: 0;
-		padding: 0;
-	}
-	:root {
-		--web-view-ids: ID5_Android___2;
-	}
 
-	#map {
-        width: 100vw;
-        height: 100vh;
-    }
-	#ID5_Android___2 * {
-		margin: 0;
-		padding: 0;
-	}
-	#ID5_Android___2 {
-		position: absolute;
-		box-sizing: border-box;
-		transform: translateX(-50%);
-		left: 50%;
-		background: #E5E5E5;
-		width: 360px;
-		height: 640px;
-		background-color: rgba(255,255,255,1);
-		overflow: hidden;
-		margin: 0;
-		padding: 0;
-		--web-view-name: 5 Android – 2;
-		--web-view-id: ID5_Android___2;
-		--web-scale-to-fit: true;
-		--web-enable-scale-up: true;
-		--web-scale-on-resize: true;
-		--web-scale-on-double-click: true;
-		--web-actual-size-on-double-click: true;
-		--web-show-navigation-controls: true;
-		--web-enable-deep-linking: true;
-	}
-	#Rectangle_7 {
-		fill: rgba(60,50,212,1);
-	}
-	.Rectangle_7 {
-		position: absolute;
-		overflow: visible;
-		width: 360px;
-		height: 86px;
-		left: 0px;
-		top: 0px;
-	}
-	#Group_39 {
-		position: absolute;
-		width: 34.315px;
-		height: 27.125px;
-		left: 301.654px;
-		top: 30.315px;
-		overflow: visible;
-	}
-	#Path_85 {
-		fill: rgba(206,203,244,1);
-	}
-	.Path_85 {
-		transform: matrix(1,0,0,1,0,0);
-		overflow: visible;
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 18.217px;
-		height: 23.102px;
-	}
-	#Path_83 {
-		fill: rgba(206,203,244,1);
-		stroke: rgb(206, 203, 244);
-		stroke-width: 1px;
-		stroke-linejoin: miter;
-		stroke-linecap: butt;
-		stroke-miterlimit: 4;
-		shape-rendering: auto;
-	}
-	.Path_83 {
-		transform: matrix(1,0,0,1,0,0);
-		overflow: visible;
-		position: absolute;
-		top: 8.683px;
-		left: 15.635px;
-		width: 20.757px;
-		height: 19.442px;
-	}
-	#Nearest_vehicle_is {
-		position: absolute;
-		left: 24px;
-		top: 29px;
-		overflow: visible;
-		width: 110px;
-		white-space: nowrap;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 13px;
-		color: rgba(206,203,244,1);
-	}
-	#ID3_min_away {
-		position: absolute;
-		left: 24px;
-		top: 46.399px;
-		overflow: visible;
-		width: 77px;
-		white-space: nowrap;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		color: rgba(236,235,251,1);
-	}
-	#Rectangle_3 {
-		fill: rgba(255,255,255,1);
-		stroke: rgb(60, 50, 212);
-		stroke-width: 1px;
-		stroke-linejoin: miter;
-		stroke-linecap: butt;
-		stroke-miterlimit: 4;
-		shape-rendering: auto;
-	}
-	.Rectangle_3 {
-		position: absolute;
-		overflow: visible;
-		width: 278px;
-		height: 40px;
-		left: 41px;
-		top: 140px;
-	}
-	#From {
-		position: absolute;
-		left: 40px;
-		top: 118px;
-		overflow: visible;
-		width: 35px;
-		white-space: nowrap;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		color: rgba(110,110,119,1);
-	}
-	#_____From {
-		position: absolute;
-		left: 41px;
-		top: 140px;
-		overflow: hidden;
-		width: 279px;
-		height: 40px;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		color: rgba(110,110,119,1);
-	}
-	#Rectangle_3_A12_Rectangle_3 {
-		fill: rgba(255,255,255,1);
-		stroke: rgb(60, 50, 212);
-		stroke-width: 1px;
-		stroke-linejoin: miter;
-		stroke-linecap: butt;
-		stroke-miterlimit: 4;
-		shape-rendering: auto;
-	}
-	.Rectangle_3_A12_Rectangle_3 {
-		position: absolute;
-		overflow: visible;
-		width: 278px;
-		height: 40px;
-		left: 41px;
-		top: 232px;
-	}
-	#To {
-		position: absolute;
-		left: 41px;
-		top: 210px;
-		overflow: visible;
-		width: 17px;
-		white-space: nowrap;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		color: rgba(110,110,119,1);
-	}
-	#Group_30 {
-		position: absolute;
-		width: 170px;
-		height: 45px;
-		left: 96px;
-		top: 339px;
-		overflow: visible;
-	}
-	#Rectangle_6 {
-		fill: rgba(60,50,212,1);
-	}
-	.Rectangle_6 {
-		position: absolute;
-		overflow: visible;
-		width: 170px;
-		height: 45px;
-		left: 0px;
-		top: 0px;
-	}
-	#Ride_now {
-		position: absolute;
-		left: 52px;
-		top: 13px;
-		overflow: visible;
-		width: 67px;
-		white-space: nowrap;
-		text-align: center;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 15px;
-		color: rgba(255,255,255,1);
-	}
-	#_____To {
-		position: absolute;
-		left: 41px;
-		top: 232px;
-		overflow: hidden;
-		width: 279px;
-		height: 40px;
-		text-align: left;
-		font-family: Inter;
-		font-style: normal;
-		font-weight: normal;
-		font-size: 14px;
-		color: rgba(110,110,119,1);
-	}
+@media screen and (max-width: 610px) {
+  .header-menu a:not(.main-header-link) {
+    display: none;
+  }
+}
+.header-menu a.is-active, .header-menu a:hover {
+  color: var(--theme-color);
+  border-bottom: 2px solid var(--theme-color);
+}
+
+.notify {
+  position: relative;
+}
+.notify:before {
+  content: "";
+  position: absolute;
+  background-color: #3a6df0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  right: 20px;
+  top: 16px;
+}
+@media screen and (max-width: 1055px) {
+  .notify {
+    display: none;
+  }
+}
+
+.menu-circle {
+  width: 15px;
+  height: 15px;
+  background-color: #f96057;
+  border-radius: 50%;
+  box-shadow: 24px 0 0 0 #f8ce52, 48px 0 0 0 #5fcf65;
+  margin-right: 195px;
+  flex-shrink: 0;
+}
+@media screen and (max-width: 945px) {
+  .menu-circle {
+    display: none;
+  }
+}
+
+.search-bar {
+  height: 40px;
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  padding-left: 16px;
+  border-radius: 4px;
+}
+.search-bar input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: var(--search-bg);
+  border-radius: 4px;
+  font-family: var(--body-font);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 20px 0 40px;
+  box-shadow: 0 0 0 2px rgba(134, 140, 160, 0.02);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56.966 56.966' fill='%23717790c7'%3e%3cpath d='M55.146 51.887L41.588 37.786A22.926 22.926 0 0046.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 00.083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z'/%3e%3c/svg%3e");
+  background-size: 14px;
+  background-repeat: no-repeat;
+  background-position: 16px 48%;
+  color: var(--theme-color);
+}
+.search-bar input::-moz-placeholder {
+  font-family: var(--body-font);
+  color: var(--inactive-color);
+  font-size: 15px;
+  font-weight: 500;
+}
+.search-bar input:-ms-input-placeholder {
+  font-family: var(--body-font);
+  color: var(--inactive-color);
+  font-size: 15px;
+  font-weight: 500;
+}
+.search-bar input::placeholder {
+  font-family: var(--body-font);
+  color: var(--inactive-color);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  padding: 0 16px 0 40px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.header-profile svg {
+  width: 22px;
+  color: #f9fafb;
+  flex-shrink: 0;
+}
+
+.notification {
+  position: relative;
+}
+.notification-number {
+  position: absolute;
+  background-color: #3a6df0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  right: -6px;
+  top: -6px;
+}
+.notification + svg {
+  margin-left: 22px;
+}
+@media screen and (max-width: 945px) {
+  .notification + svg {
+    display: none;
+  }
+}
+
+.profile-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 2px solid var(--theme-color);
+  margin-left: 22px;
+}
+
+.wide .header-menu,
+.wide .header-profile {
+  display: none;
+}
+.wide .search-bar {
+  max-width: 600px;
+  margin: auto;
+  transition: 0.4s;
+  box-shadow: 0 0 0 1px var(--border-color);
+  padding-left: 0;
+}
+.wide .menu-circle {
+  margin-right: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.left-side {
+  flex-basis: 275px;
+  border-right: 1px solid var(--border-color);
+  padding: 26px;
+  display: flex;
+  overflow: auto;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+}
+
+@media screen and (max-width: 945px) {
+  .left-side {
+    display: none;
+  }
+}
+
+.side-wrapper + .side-wrapper {
+  margin-top: 20px;
+}
+
+.side-title {
+  color: var(--inactive-color);
+  margin-bottom: 14px;
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+.side-menu a {
+  text-decoration: none;
+  color: var(--theme-color);
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.side-menu a:hover {
+  background-color: var(--hover-menu-bg);
+}
+.side-menu svg {
+  width: 16px;
+  margin-right: 8px;
+}
+
+.updates {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin-left: auto;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  height: 58px;
+  flex-shrink: 0;
+}
+.main-header .header-menu {
+  margin-left: 150px;
+}
+@media screen and (max-width: 1055px) {
+  .main-header .header-menu {
+    margin: auto;
+  }
+}
+.main-header .header-menu a {
+  padding: 20px 24px;
+}
+
+.main-container {
+  flex-basis: 838px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.menu-link-main {
+  text-decoration: none;
+  color: var(--theme-color);
+  padding: 0 30px;
+}
+@media screen and (max-width: 1055px) {
+  .menu-link-main {
+    display: none;
+  }
+}
+
+.content-wrapper {
+  display: flex;
+    flex-direction: row;
+    color: var(--theme-color);
+    padding: 1px 39px;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--theme-bg-color);
+    justify-content: center;
+    align-content: center;
+}
+@media screen and (max-width: 510px) {
+  .content-wrapper {
+    padding: 20px;
+  }
+}
+.content-wrapper-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png"), linear-gradient(to right top, #cf4af3, #e73bd7, #f631bc, #fd31a2, #ff3a8b, #ff4b78, #ff5e68, #ff705c, #ff8c51, #ffaa49, #ffc848, #ffe652);
+  border-radius: 14px;
+  padding: 20px 40px;
+}
+@media screen and (max-width: 415px) {
+  .content-wrapper-header {
+    padding: 20px;
+  }
+}
+.content-wrapper.overlay {
+  pointer-events: none;
+  transition: 0.3s;
+  background-color: var(--overlay-bg);
+}
+
+.overlay-app {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: all;
+  background-color: rgba(36, 39, 59, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+.overlay-app.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.img-content {
+  font-weight: 500;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.img-content svg {
+  width: 28px;
+  margin-right: 14px;
+}
+
+.content-text {
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 16px;
+  line-height: 1.7em;
+  color: #ebecec;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content-wrapper-context {
+  max-width: 350px;
+}
+
+.content-button {
+  background-color: #3a6df0;
+  border: none;
+  padding: 8px 26px;
+  color: #fff;
+  border-radius: 20px;
+  margin-top: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.content-wrapper-img {
+  width: 186px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: -25px;
+  -o-object-position: center;
+     object-position: center;
+}
+@media screen and (max-width: 570px) {
+  .content-wrapper-img {
+    width: 110px;
+  }
+}
+
+.content-section {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.content-section-title {
+  color: var(--content-title-color);
+  margin-bottom: 14px;
+}
+.content-section ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  background-color: var(--content-bg);
+  padding-left: 0;
+  margin: 0;
+  border-radius: 14px;
+  border: 1px solid var(--theme-bg-color);
+  cursor: pointer;
+}
+.content-section ul li {
+  list-style: none;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+.content-section ul li:hover {
+  background-color: var(--theme-bg-color);
+}
+.content-section ul li:hover:first-child {
+  border-radius: 13px 13px 0 0;
+}
+.content-section ul li:hover:last-child {
+  border-radius: 0 0 13px 13px;
+}
+.content-section ul li + li {
+  border-top: 1px solid var(--border-color);
+}
+.content-section ul svg {
+  width: 28px;
+  border-radius: 6px;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.products {
+  display: flex;
+  align-items: center;
+  width: 150px;
+}
+@media screen and (max-width: 480px) {
+  .products {
+    width: 120px;
+  }
+}
+
+.status {
+  margin-left: auto;
+  width: 140px;
+  font-size: 15px;
+  position: relative;
+}
+@media screen and (max-width: 700px) {
+  .status {
+    display: none;
+  }
+}
+.status-circle {
+  width: 6px;
+  height: 6px;
+  background-color: #396df0;
+  position: absolute;
+  border-radius: 50%;
+  top: 4px;
+  left: -20px;
+}
+.status-circle.green {
+  background-color: #3bf083;
+}
+.status-button {
+  font-size: 15px;
+  margin-top: 0;
+  padding: 6px 24px;
+}
+@media screen and (max-width: 390px) {
+  .status-button {
+    padding: 6px 14px;
+  }
+}
+.status-button.open {
+  background: none;
+  color: var(--button-inactive);
+  border: 1px solid var(--button-inactive);
+}
+.status-button:not(.open):hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+.content-button:not(.open):hover {
+  background: #1e59f1;
+}
+
+.menu {
+  width: 5px;
+  height: 5px;
+  background-color: var(--button-inactive);
+  border-radius: 50%;
+  box-shadow: 7px 0 0 0 var(--button-inactive), 14px 0 0 0 var(--button-inactive);
+  margin: 0 12px;
+}
+
+@media screen and (max-width: 415px) {
+  .adobe-product .menu {
+    display: none;
+  }
+}
+.dropdown {
+  position: relative;
+  height: 53px;
+  width: 40px;
+  top: -24px;
+  display: flex;
+  left: -5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.dropdown ul {
+  position: absolute;
+  background: var(--dropdown-bg);
+  height: 110px;
+  width: 120px;
+  right: 0;
+  top: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translatey(10px);
+  transition: all 0.4s ease;
+}
+.dropdown ul li a {
+  text-decoration: none;
+  color: var(--theme-color);
+  font-size: 12px;
+}
+
+.dropdown.is-active ul {
+  opacity: 1;
+  pointer-events: all;
+  transform: translatey(25px);
+}
+.dropdown.is-active ul li:hover {
+  background-color: var(--dropdown-hover);
+}
+
+.button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 187px;
+  margin-left: auto;
+}
+@media screen and (max-width: 480px) {
+  .button-wrapper {
+    width: auto;
+  }
+}
+
+.pop-up {
+  position: absolute;
+  padding: 30px 40px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s;
+  z-index: 10;
+  background-color: var(--popup-bg);
+  width: 500px;
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
+}
+@media screen and (max-width: 570px) {
+  .pop-up {
+    width: 100%;
+  }
+}
+.pop-up.visible {
+  visibility: visible;
+  opacity: 1;
+}
+.pop-up__title {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pop-up__subtitle {
+  white-space: normal;
+  margin: 20px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.8em;
+}
+.pop-up__subtitle a {
+  color: var(--theme-color);
+}
+
+.content-button-wrapper .content-button.status-button.open.close {
+  width: auto;
+}
+
+.content-section .close {
+  margin-right: 0;
+  width: 24px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+}
+.checkbox-wrapper + .checkbox-wrapper {
+  margin: 20px 0 40px;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkbox + label {
+  display: flex;
+  align-items: center;
+}
+.checkbox + label:before {
+  content: "";
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--theme-color);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox:checked + label:before {
+  background-color: #3a6df0;
+  border-color: #3a6df0;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3e%3cpath d='M20 6L9 17l-5-5'/%3e%3c/svg%3e");
+  background-position: 50%;
+  background-size: 12px;
+  background-repeat: no-repeat;
+}
+
+.content-button-wrapper {
+  margin-top: auto;
+  margin-left: auto;
+}
+.content-button-wrapper .open {
+  margin-right: 8px;
+}
+
+.apps-card {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: calc(100% + 20px);
+}
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+  width: calc(33.3% - 20px);
+  font-size: 16px;
+  background-color: var(--content-bg);
+  border-radius: 14px;
+  border: 1px solid var(--theme-bg-color);
+  padding: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.app-card:hover {
+  transform: scale(1.02);
+  background-color: var(--theme-bg-color);
+}
+.app-card svg {
+  width: 28px;
+  border-radius: 6px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+.app-card + .app-card {
+  margin-left: 20px;
+}
+.app-card span {
+  display: flex;
+  align-items: center;
+}
+.app-card__subtext {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6em;
+  margin-top: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+.app-card-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-top: 16px;
+}
+@media screen and (max-width: 1110px) {
+  .app-card {
+    width: calc(50% - 20px);
+  }
+  .app-card:last-child {
+    margin-top: 20px;
+    margin-left: 0px;
+  }
+}
+@media screen and (max-width: 565px) {
+  .app-card {
+    width: calc(100% - 20px);
+    margin-top: 20px;
+  }
+  .app-card + .app-card {
+    margin-left: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-bg);
+  border-radius: 10px;
+}
 </style>
-<script style="applicationScript">
-///////////////////////////////////////
-// INITIALIZATION
-///////////////////////////////////////
 
-/**
- * Functionality for scaling, showing by media query, and navigation between multiple pages on a single page. 
- * Code subject to change.
- **/
-
-if (window.console==null) { window["console"] = { log : function() {} } }; // some browsers do not set
-
-var Application = function() {
-	// event constants
-	this.NAVIGATION_CHANGE = "viewChange";
-	this.VIEW_NOT_FOUND = "viewNotFound";
-	this.STATE_NOT_FOUND = "stateNotFound";
-	this.APPLICATION_COMPLETE = "applicationComplete";
-	this.SIZE_STATE_NAME = "data-is-view-scaled";
-
-	this.currentQuery = {index: 0, rule: null, mediaText: null, id: null};
-	this.inclusionQuery = "(min-width: 0px)";
-	this.exclusionQuery = "none and (min-width: 99999px)";
-	this.LastModifiedDateLabelName = "LastModifiedDateLabel";
-	this.pageRefreshedName = "showPageRefreshedNotification";
-	this.prefix = "--web-";
-	this.applicationStylesheet = null;
-	this.mediaQueryDictionary = {};
-	this.statesDictionary = {};
-	this.states = [];
-	this.views = {};
-	this.viewIds = [];
-	this.viewQueries = {};
-	this.viewScale = 1;
-	this.numberOfViews = 0;
-	this.verticalPadding = 0;
-	this.horizontalPadding = 0;
-	this.stateName = null;
-
-	// view settings
-	this.showUpdateNotification = false;
-	this.showNavigationControls = false;
-	this.scaleViewsToFit = false;
-	this.scaleToFitOnDoubleClick = false;
-	this.actualSizeOnDoubleClick = false;
-	this.scaleViewsOnResize = false;
-	this.navigationOnKeypress = false;
-	this.showViewName = false;
-	this.enableDeepLinking = true;
-	this.refreshPageForChanges = false;
-	this.showRefreshNotifications = true;
-
-	// view controls
-	this.scaleViewSlider = null;
-	this.lastModifiedLabel = null;
-	this.supportsPopState = false; // window.history.pushState!=null;
-	this.initialized = false;
-
-	// refresh properties
-	this.refreshDuration = 250; // 2000;
-	this.lastModifiedDate = null;
-	this.refreshRequest = null;
-	this.refreshInterval = null;
-	this.refreshContent = null;
-	this.refreshContentSize = null;
-	this.refreshCheckContent = false;
-	this.refreshCheckContentSize = false;
-
-	var self = this;
-
-	self.initialize = function(event) {
-		var view = self.getVisibleView();
-		self.collectViews();
-		self.collectMediaQueries();
-		self.setViewOptions(view);
-
-		
-		// sometimes the body size is 0 so we call this now and again later
-		if (self.initialized) {
-			window.addEventListener(self.NAVIGATION_CHANGE, self.viewChangeHandler);
-			window.addEventListener("keyup", self.keypressHandler);
-			window.addEventListener("keypress", self.keypressHandler);
-			window.addEventListener("resize", self.resizeHandler);
-			window.document.addEventListener("dblclick", self.doubleClickHandler);
-
-			if (self.supportsPopState) {
-				window.addEventListener('popstate', self.popStateHandler);
-			}
-			else {
-				window.addEventListener('hashchange', self.hashChangeHandler);
-			}
-
-			// we are ready to go
-			window.dispatchEvent(new Event(self.APPLICATION_COMPLETE));
-		}
-
-		if (self.initialized==false) {
-			if (self.showNavigationControls || self.singlePageApplication) {
-				self.syncronizeViewToURL();
-			}
-	
-			if (self.refreshPageForChanges) {
-				self.setupRefreshForChanges();
-			}
-	
-			self.initialized = true;
-		}
-		
-		if (self.scaleViewsToFit) {
-			self.viewScale = self.scaleViewToFit(view);
-			
-			if (self.viewScale<0) {
-				setTimeout(self.scaleViewToFit, 500, view);
-			}
-		}
-		else if (view) {
-			self.viewScale = self.getViewScaleValue(view);
-			self.updateSliderValue(self.viewScale);
-		}
-		else {
-			// no view found
-		}
-	
-		if (self.showUpdateNotification) {
-			self.showNotification();
-		}
-	
-		//"addEventListener" in window ? null : window.addEventListener = window.attachEvent;
-		//"addEventListener" in document ? null : document.addEventListener = document.attachEvent;
-	}
-
-
-	///////////////////////////////////////
-	// AUTO REFRESH 
-	///////////////////////////////////////
-
-	self.setupRefreshForChanges = function() {
-		self.refreshRequest = new XMLHttpRequest();
-
-		if (!self.refreshRequest) {
-			return false;
-		}
-
-		// get document start values immediately
-		self.requestRefreshUpdate();
-	}
-
-	/**
-	 * Attempt to check the last modified date by the headers 
-	 * or the last modified property from the byte array 
-	 * (BETA)
-	 **/
-	self.requestRefreshUpdate = function() {
-		var url = document.location.href;
-		var protocol = window.location.protocol;
-		var method;
-		
-		try {
-
-			if (self.refreshCheckContentSize) {
-				self.refreshRequest.open('HEAD', url, true);
-			}
-			else if (self.refreshCheckContent) {
-				self.refreshContent = document.documentElement.outerHTML;
-				self.refreshRequest.open('GET', url, true);
-				self.refreshRequest.responseType = "text";
-			}
-			else {
-
-				// get page last modified date for the first call to compare to later
-				if (self.lastModifiedDate==null) {
-
-					// File system does not send headers in FF so get blob if possible
-					if (protocol=="file:") {
-						self.refreshRequest.open("GET", url, true);
-						self.refreshRequest.responseType = "blob";
-					}
-					else {
-						self.refreshRequest.open("HEAD", url, true);
-						self.refreshRequest.responseType = "blob";
-					}
-
-					self.refreshRequest.onload = self.refreshOnLoadOnceHandler;
-
-					// In some browsers (Chrome & Safari) this error occurs at send: 
-					// 
-					// Chrome - Access to XMLHttpRequest at 'file:///index.html' from origin 'null' 
-					// has been blocked by CORS policy: 
-					// Cross origin requests are only supported for protocol schemes: 
-					// http, data, chrome, chrome-extension, https.
-					// 
-					// Safari - XMLHttpRequest cannot load file:///Users/user/Public/index.html. Cross origin requests are only supported for HTTP.
-					// 
-					// Solution is to run a local server, set local permissions or test in another browser
-					self.refreshRequest.send(null);
-
-					// In MS browsers the following behavior occurs possibly due to an AJAX call to check last modified date: 
-					// 
-					// DOM7011: The code on this page disabled back and forward caching.
-
-				}
-				else {
-					self.refreshRequest = new XMLHttpRequest();
-					self.refreshRequest.onreadystatechange = self.refreshHandler;
-					self.refreshRequest.ontimeout = function() {
-						console.log("Couldn't find page to check for updates");
-					}
-					
-					var method;
-					if (protocol=="file:") {
-						method = "GET";
-					}
-					else {
-						method = "HEAD";
-					}
-
-					//refreshRequest.open('HEAD', url, true);
-					self.refreshRequest.open(method, url, true);
-					self.refreshRequest.responseType = "blob";
-					self.refreshRequest.send(null);
-				}
-			}
-		}
-		catch (error) {
-			console.log("Refresh failed for the following reason:")
-			console.log(error);
-		}
-	}
-
-	self.refreshHandler = function() {
-		var contentSize;
-
-		try {
-
-			if (self.refreshRequest.readyState === XMLHttpRequest.DONE) {
-				
-				if (self.refreshRequest.status === 2 || 
-					self.refreshRequest.status === 200) {
-					var pageChanged = false;
-
-					self.updateLastModifiedLabel();
-
-					if (self.refreshCheckContentSize) {
-						var lastModifiedHeader = self.refreshRequest.getResponseHeader("Last-Modified");
-						contentSize = self.refreshRequest.getResponseHeader("Content-Length");
-						//lastModifiedDate = refreshRequest.getResponseHeader("Last-Modified");
-						var headers = self.refreshRequest.getAllResponseHeaders();
-						var hasContentHeader = headers.indexOf("Content-Length")!=-1;
-						
-						if (hasContentHeader) {
-							contentSize = self.refreshRequest.getResponseHeader("Content-Length");
-
-							// size has not been set yet
-							if (self.refreshContentSize==null) {
-								self.refreshContentSize = contentSize;
-								// exit and let interval call this method again
-								return;
-							}
-
-							if (contentSize!=self.refreshContentSize) {
-								pageChanged = true;
-							}
-						}
-					}
-					else if (self.refreshCheckContent) {
-
-						if (self.refreshRequest.responseText!=self.refreshContent) {
-							pageChanged = true;
-						}
-					}
-					else {
-						lastModifiedHeader = self.getLastModified(self.refreshRequest);
-
-						if (self.lastModifiedDate!=lastModifiedHeader) {
-							pageChanged = true;
-						}
-
-					}
-
-					
-					if (pageChanged) {
-						clearInterval(self.refreshInterval);
-						self.refreshUpdatedPage();
-						return;
-					}
-
-				}
-				else {
-					console.log('There was a problem with the request.');
-				}
-
-			}
-		}
-		catch( error ) {
-			//console.log('Caught Exception: ' + error);
-		}
-	}
-
-	self.refreshOnLoadOnceHandler = function(event) {
-
-		// get the last modified date
-		if (self.refreshRequest.response) {
-			self.lastModifiedDate = self.getLastModified(self.refreshRequest);
-
-			if (self.lastModifiedDate!=null) {
-
-				if (self.refreshInterval==null) {
-					self.refreshInterval = setInterval(self.requestRefreshUpdate, self.refreshDuration);
-				}
-			}
-			else {
-				console.log("Could not get last modified date from the server");
-			}
-		}
-	}
-
-	self.refreshUpdatedPage = function() {
-		if (self.showRefreshNotifications) {
-			var date = new Date().setTime((new Date().getTime()+10000));
-			document.cookie = encodeURIComponent(self.pageRefreshedName) + "=true" + "; max-age=6000;" + " path=/";
-		}
-
-		document.location.reload(true);
-	}
-
-	self.showNotification = function(duration) {
-		var notificationID = self.pageRefreshedName+"ID";
-		var notification = document.getElementById(notificationID);
-		if (duration==null) duration = 4000;
-
-		if (notification!=null) {return;}
-
-		notification = document.createElement("div");
-		notification.id = notificationID;
-		notification.textContent = "PAGE UPDATED";
-		var styleRule = ""
-		styleRule = "position: fixed; padding: 7px 16px 6px 16px; font-family: Arial, sans-serif; font-size: 10px; font-weight: bold; left: 50%;";
-		styleRule += "top: 20px; background-color: rgba(0,0,0,.5); border-radius: 12px; color:rgb(235, 235, 235); transition: all 2s linear;";
-		styleRule += "transform: translateX(-50%); letter-spacing: .5px; filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, .1))";
-		notification.setAttribute("style", styleRule);
-
-		notification.className= "PageRefreshedClass";
-		
-		document.body.appendChild(notification);
-
-		setTimeout(function() {
-			notification.style.opacity = "0";
-			notification.style.filter = "drop-shadow( 0px 0px 0px rgba(0,0,0, .5))";
-			setTimeout(function() {
-				notification.parentNode.removeChild(notification);
-			}, duration)
-		}, duration);
-
-		document.cookie = encodeURIComponent(self.pageRefreshedName) + "=; max-age=1; path=/";
-	}
-
-	/**
-	 * Get the last modified date from the header 
-	 * or file object after request has been received
-	 **/
-	self.getLastModified = function(request) {
-		var date;
-
-		// file protocol - FILE object with last modified property
-		if (request.response && request.response.lastModified) {
-			date = request.response.lastModified;
-		}
-		
-		// http protocol - check headers
-		if (date==null) {
-			date = request.getResponseHeader("Last-Modified");
-		}
-
-		return date;
-	}
-
-	self.updateLastModifiedLabel = function() {
-		var labelValue = "";
-		
-		if (self.lastModifiedLabel==null) {
-			self.lastModifiedLabel = document.getElementById("LastModifiedLabel");
-		}
-
-		if (self.lastModifiedLabel) {
-			var seconds = parseInt(((new Date().getTime() - Date.parse(document.lastModified)) / 1000 / 60) * 100 + "");
-			var minutes = 0;
-			var hours = 0;
-
-			if (seconds < 60) {
-				seconds = Math.floor(seconds/10)*10;
-				labelValue = seconds + " seconds";
-			}
-			else {
-				minutes = parseInt((seconds/60) + "");
-
-				if (minutes>60) {
-					hours = parseInt((seconds/60/60) +"");
-					labelValue += hours==1 ? " hour" : " hours";
-				}
-				else {
-					labelValue = minutes+"";
-					labelValue += minutes==1 ? " minute" : " minutes";
-				}
-			}
-			
-			if (seconds<10) {
-				labelValue = "Updated now";
-			}
-			else {
-				labelValue = "Updated " + labelValue + " ago";
-			}
-
-			if (self.lastModifiedLabel.firstElementChild) {
-				self.lastModifiedLabel.firstElementChild.textContent = labelValue;
-
-			}
-			else if ("textContent" in self.lastModifiedLabel) {
-				self.lastModifiedLabel.textContent = labelValue;
-			}
-		}
-	}
-
-	self.getShortString = function(string, length) {
-		if (length==null) length = 30;
-		string = string!=null ? string.substr(0, length).replace(/\n/g, "") : "[String is null]";
-		return string;
-	}
-
-	self.getShortNumber = function(value, places) {
-		if (places==null || places<1) places = 3;
-		value = Math.round(value * Math.pow(10,places)) / Math.pow(10, places);
-		return value;
-	}
-
-	///////////////////////////////////////
-	// NAVIGATION CONTROLS
-	///////////////////////////////////////
-
-	self.updateViewLabel = function() {
-		var viewNavigationLabel = document.getElementById("ViewNavigationLabel");
-		var view = self.getVisibleView();
-		var viewIndex = view ? self.getViewIndex(view) : -1;
-		var viewName = view ? self.getViewPreferenceValue(view, self.prefix + "view-name") : null;
-		var viewId = view ? view.id : null;
-
-		if (viewNavigationLabel && view) {
-			if (viewName && viewName.indexOf('"')!=-1) {
-				viewName = viewName.replace(/"/g, "");
-			}
-
-			if (self.showViewName) {
-				viewNavigationLabel.textContent = viewName;
-				self.setTooltip(viewNavigationLabel, viewIndex + 1 + " of " + self.numberOfViews);
-			}
-			else {
-				viewNavigationLabel.textContent = viewIndex + 1 + " of " + self.numberOfViews;
-				self.setTooltip(viewNavigationLabel, viewName);
-			}
-
-		}
-	}
-
-	self.updateURL = function(view) {
-		view = view == null ? self.getVisibleView() : view;
-		var viewId = view ? view.id : null
-		var viewFragment = view ? "#"+ viewId : null;
-
-		if (viewId && self.enableDeepLinking) {
-
-			if (self.supportsPopState==false) {
-				self.setFragment(viewId);
-			}
-			else {
-				if (viewFragment!=window.location.hash) {
-
-					if (window.location.hash==null) {
-						window.history.replaceState({name:viewId}, null, viewFragment);
-					}
-					else {
-						window.history.pushState({name:viewId}, null, viewFragment);
-					}
-				}
-			}
-		}
-	}
-
-	self.setFragment = function(value) {
-		window.location.hash = "#" + value;
-	}
-
-	self.setTooltip = function(element, value) {
-		// setting the tooltip in edge causes a page crash on hover
-		if (/Edge/.test(navigator.userAgent)) { return; }
-
-		if ("title" in element) {
-			element.title = value;
-		}
-	}
-
-	self.getStylesheetRules = function(styleSheet) {
-		try {
-			if (styleSheet) return styleSheet.cssRules || styleSheet.rules;
-	
-			return document.styleSheets[0]["cssRules"] || document.styleSheets[0]["rules"];
-		}
-		catch (error) {
-			// Errors happen when script loads before stylesheet or loading an external css locally
-			// SecurityError: The operation is insecure.
-			// Firefox: InvalidAccessError: A parameter or an operation is not supported by the underlying object
-			// Place script after stylesheet
-			console.log(error);
-		}
-	}
-
-	/**
-	 * If single page application hide all of the views except first
-	 **/
-	self.hideViews = function(selectIndex) {
-		var rules = self.getStylesheetRules();
-		var queryIndex = 0;
-		var numberOfRules = rules!=null ? rules.length : 0;
-
-		// loop through rules and hide media queries except selected
-		for (var i=0;i<numberOfRules;i++) {
-			var rule = rules[i];
-
-			if (rule.media!=null) {
-
-				if (queryIndex==selectIndex) {
-					self.currentQuery.mediaText = rule.conditionText;
-					self.currentQuery.index = selectIndex;
-					self.currentQuery.rule = rule;
-					self.enableMediaQuery(rule);
-				}
-				else {
-					self.disableMediaQuery(rule);
-				}
-				
-				queryIndex++;
-			}
-		}
-
-		self.numberOfViews = queryIndex;
-		self.updateViewLabel();
-		self.updateURL();
-
-		self.dispatchViewChange();
-
-		var view = self.getVisibleView();
-		var viewIndex = view ? self.getViewIndex(view) : -1;
-
-		return viewIndex==selectIndex ? view : null;
-	}
-
-	self.showView = function(view) {
-		var id = view ? view.id : null;
-		var query = id ? self.mediaQueryDictionary[id] : null;
-		var display = null;
-
-		if (query) {
-			self.enableMediaQuery(query);
-			if (view==null) view =self.getVisibleView();
-			self.setViewOptions(view);
-		}
-		else if (id) {
-			display = window.getComputedStyle(view).getPropertyValue("display");
-			if (display=="" ||  display=="none") {
-				view.style.display = "block";
-			}
-		}
-	}
-
-	self.setViewOptions = function(view) {
-
-		if (view) {
-			self.scaleViewsToFit = self.getViewPreferenceBoolean(view, self.prefix + "scale-to-fit");
-			self.scaleToFitOnDoubleClick = self.getViewPreferenceBoolean(view, self.prefix + "scale-on-double-click");
-			self.actualSizeOnDoubleClick = self.getViewPreferenceBoolean(view, self.prefix + "actual-size-on-double-click");
-			self.scaleViewsOnResize = self.getViewPreferenceBoolean(view, self.prefix + "scale-on-resize");
-			self.enableScaleUp = self.getViewPreferenceBoolean(view, self.prefix + "enable-scale-up");
-			self.navigationOnKeypress = self.getViewPreferenceBoolean(view, self.prefix + "navigate-on-keypress");
-			self.showViewName = self.getViewPreferenceBoolean(view, self.prefix + "show-view-name");
-			self.refreshPageForChanges = self.getViewPreferenceBoolean(view, self.prefix + "refresh-for-changes");
-			self.showNavigationControls = self.getViewPreferenceBoolean(view, self.prefix + "show-navigation-controls");
-			self.scaleViewSlider = self.getViewPreferenceBoolean(view, self.prefix + "show-scale-controls");
-			self.enableDeepLinking = self.getViewPreferenceBoolean(view, self.prefix + "enable-deep-linking");
-			self.singlePageApplication = self.getViewPreferenceBoolean(view, self.prefix + "application");
-			self.showUpdateNotification = document.cookie!="" ? document.cookie.indexOf(self.pageRefreshedName)!=-1 : false;
-
-			if (self.scaleViewsToFit) {
-				var newScaleValue = self.scaleViewToFit(view);
-				
-				if (newScaleValue<0) {
-					setTimeout(self.scaleViewToFit, 500, view);
-				}
-			}
-			else {
-				self.viewScale = self.getViewScaleValue(view);
-				self.updateSliderValue(self.viewScale);
-			}
-		}
-	}
-
-	self.previousView = function(event) {
-		var rules = self.getStylesheetRules();
-		var view = self.getVisibleView()
-		var index = view ? self.getViewIndex(view) : -1;
-		var prevQueryIndex = index!=-1 ? index-1 : self.currentQuery.index-1;
-		var queryIndex = 0;
-		var numberOfRules = rules!=null ? rules.length : 0;
-
-		if (event) {
-			event.stopImmediatePropagation();
-		}
-
-		if (prevQueryIndex<0) {
-			return;
-		}
-
-		// loop through rules and hide media queries except selected
-		for (var i=0;i<numberOfRules;i++) {
-			var rule = rules[i];
-			
-			if (rule.media!=null) {
-
-				if (queryIndex==prevQueryIndex) {
-					self.currentQuery.mediaText = rule.conditionText;
-					self.currentQuery.index = prevQueryIndex;
-					self.currentQuery.rule = rule;
-					self.enableMediaQuery(rule);
-					self.updateViewLabel();
-					self.updateURL();
-					self.dispatchViewChange();
-				}
-				else {
-					self.disableMediaQuery(rule);
-				}
-
-				queryIndex++;
-			}
-		}
-	}
-
-	self.nextView = function(event) {
-		var rules = self.getStylesheetRules();
-		var view = self.getVisibleView();
-		var index = view ? self.getViewIndex(view) : -1;
-		var nextQueryIndex = index!=-1 ? index+1 : self.currentQuery.index+1;
-		var queryIndex = 0;
-		var numberOfRules = rules!=null ? rules.length : 0;
-		var numberOfMediaQueries = self.getNumberOfMediaRules();
-
-		if (event) {
-			event.stopImmediatePropagation();
-		}
-
-		if (nextQueryIndex>=numberOfMediaQueries) {
-			return;
-		}
-
-		// loop through rules and hide media queries except selected
-		for (var i=0;i<numberOfRules;i++) {
-			var rule = rules[i];
-			
-			if (rule.media!=null) {
-
-				if (queryIndex==nextQueryIndex) {
-					self.currentQuery.mediaText = rule.conditionText;
-					self.currentQuery.index = nextQueryIndex;
-					self.currentQuery.rule = rule;
-					self.enableMediaQuery(rule);
-					self.updateViewLabel();
-					self.updateURL();
-					self.dispatchViewChange();
-				}
-				else {
-					self.disableMediaQuery(rule);
-				}
-
-				queryIndex++;
-			}
-		}
-	}
-
-	self.enableMediaQuery = function(rule) {
-
-		try {
-			rule.media.mediaText = self.inclusionQuery;
-		}
-		catch(error) {
-			//self.log(error);
-			rule.conditionText = self.inclusionQuery;
-		}
-	}
-
-	self.disableMediaQuery = function(rule) {
-
-		try {
-			rule.media.mediaText = self.exclusionQuery;
-		}
-		catch(error) {
-			rule.conditionText = self.exclusionQuery;
-		}
-	}
-
-	self.dispatchViewChange = function() {
-		try {
-			var event = new Event(self.NAVIGATION_CHANGE);
-			window.dispatchEvent(event);
-		}
-		catch (error) {
-			// In IE 11: Object doesn't support this action
-		}
-	}
-
-	self.getNumberOfMediaRules = function() {
-		var rules = self.getStylesheetRules();
-		var numberOfRules = rules ? rules.length : 0;
-		var numberOfQueries = 0;
-
-		for (var i=0;i<numberOfRules;i++) {
-			if (rules[i].media!=null) { numberOfQueries++; }
-		}
-		return numberOfQueries;
-	}
-
-	/////////////////////////////////////////
-	// VIEW SCALE 
-	/////////////////////////////////////////
-
-	self.sliderChangeHandler = function(event) {
-		var value = event.currentTarget.value/100;
-		var view = self.getVisibleView();
-		self.setViewScaleValue(view, value, false, true);
-	}
-
-	self.updateSliderValue = function(scale) {
-		var slider = document.getElementById("ViewZoomSliderInput");
-		var tooltip = parseInt(scale * 100 + "") + "%";
-		var inputType;
-		
-		if (slider) {
-			slider["value"] = scale * 100;
-			inputType = slider.getAttributeNS(null, "type");
-
-			if (inputType!="range") {
-				// input range is not supported
-				slider.style.display = "none";
-			}
-
-			self.setTooltip(slider, tooltip);
-		}
-	}
-
-	self.viewChangeHandler = function(event) {
-		var view = self.getVisibleView();
-		var matrix = view ? getComputedStyle(view).transform : null;
-		
-		if (matrix) {
-			self.viewScale = self.getViewScaleValue(view);
-			
-			var scaleNeededToFit = self.getViewFitToViewportScale(view);
-			var isViewLargerThanViewport = scaleNeededToFit<1;
-			
-			// scale large view to fit if scale to fit is enabled
-			//if (isViewLargerThanViewport && scaleViewsToFit) {
-			if (self.scaleViewsToFit) {
-				//setViewScaleValue(view, scale, true);
-				self.scaleViewToFit(view);
-			}
-			else {
-				self.updateSliderValue(self.viewScale);
-			}
-		}
-	}
-
-	self.getViewScaleValue = function(view) {
-		var matrix = getComputedStyle(view).transform;
-
-		if (matrix) {
-			var matrixArray = matrix.replace("matrix(", "").split(",");
-			var scaleX = parseFloat(matrixArray[0]);
-			var scaleY = parseFloat(matrixArray[3]);
-			var scale = Math.min(scaleX, scaleY);
-		}
-
-		return scale;
-	}
-
-	self.getViewTranslateYValue = function(view) {
-		var matrix = getComputedStyle(view).transform;
-
-		if (matrix) {
-			var matrixArray = matrix.replace("matrix(", "").split(",");
-			var translateY = parseFloat(matrixArray[5]);
-		}
-
-		return translateY;
-	}
-
-	self.getViewTop = function(view) {
-		var top = getComputedStyle(view).top;
-
-		return top;
-	}
-
-	self.setViewScaleValue = function(view, desiredScale, scaleToFit, centerVertically) {
-		var transform = getComputedStyle(view).transform;
-		var scaleNeededToFit = self.getViewFitToViewportScale(view, self.enableScaleUp);
-		var isViewLargerThanViewport = scaleNeededToFit<1;
-		var shrunkToFit = false;
-		
-		if (scaleToFit && (isViewLargerThanViewport || self.enableScaleUp)) {
-			desiredScale = scaleNeededToFit;
-			shrunkToFit = true;
-		}
-
-		if (isNaN(desiredScale)) {
-			desiredScale = 1;
-		}
-
-		desiredScale = self.getShortNumber(desiredScale);
-
-		self.updateSliderValue(desiredScale);
-
-		transform = self.getCSSPropertyValueForElement(view.id, "transform");
-
-		if (transform!=null) {
-			var horizontalCenter = transform.indexOf("translateX")!=-1;
-			var verticalCenter = transform.indexOf("translateY")!=-1;
-			var horizontalAndVerticalCenter = (horizontalCenter && verticalCenter) || (transform.indexOf("translate(")!=-1);
-			var topPosition = null;
-			var leftPosition = null;
-			var translateY = null;
-			var translateX = "-50%";
-			var centerForNavigation = self.showNavigationControls!=null && self.scaleViewsToFit;
-
-			//if (horizontalAndVerticalCenter || horizontalCenter || verticalCenter) {
-			if (horizontalAndVerticalCenter || centerForNavigation) {
-				translateX = "-50%";
-
-				// if view is smaller than viewport or center vertically is true then center vertically
-				if (shrunkToFit || centerVertically) {
-					translateX = "-50%";
-					translateY = "-50%";
-					topPosition = "50%";
-					leftPosition = "50%";
-				}
-				else {
-					translateX = "0";
-					translateY = "0";
-					topPosition = "0";
-					leftPosition = "0";
-				}
-				
-				view.style.transform = "translateX(" + translateX + ") translateY(" + translateY + ") scale(" + desiredScale + ")";
-
-				if (view.style.top != topPosition) {
-					view.style.top = topPosition + "";
-				}
-
-				if (view.style.left != leftPosition) {
-					view.style.left = leftPosition + "";
-				}
-				//view.style.transform = "translate(-50%,-50%) scale(" + desiredScale + ")";
-			}
-			else if (horizontalCenter) {
-				translateY = shrunkToFit ? "-50%" : "0%";
-				view.style.transform = "translateY(" + translateY + ") translateX(-50%) scale(" + desiredScale + ")";
-
-				// this next function needs work
-				//topPosition = getVerticallyCenteredTopValue(view);
-
-				if (shrunkToFit) {
-					view.style.top = "50%";
-				}
-				else {
-					view.style.top = "0";
-				}
-			}
-			else if (verticalCenter) {
-				view.style.transform = "translateY(-50%) scale(" + desiredScale + ")";
-			}
-			else {
-				view.style.transform = "scale(" + desiredScale + ")";
-			}
-
-			if (desiredScale!=1) {
-				// attempt to anchor to the top as scaled up
-				//view.style.top = null;
-			}
-		}
-
-		if (shrunkToFit) {
-			return scaleNeededToFit;
-		}
-
-		return desiredScale;
-	}
-
-	self.getVerticallyCenteredTopValue = function(view) {
-		var originalTransform = view.style.transform;
-		var originalTop = view.style.top;
-		var transform = null;
-
-		view.style.transform = "translateY(-50%)" + originalTransform;
-		view.style.top = "50%";
-		var translateY = self.getViewTranslateYValue(view);
-		view.style.transform = originalTransform;
-		view.style.top = originalTop;
-		return translateY;
-	}
-
-	self.getViewFitToViewportScale = function(view, scaleUp) {
-		var enableScaleUp = scaleUp;
-		var availableWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-		var availableHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-		var elementWidth = parseFloat(getComputedStyle(view, "style").width);
-		var elementHeight = parseFloat(getComputedStyle(view, "style").height);
-		var newScale = 1;
-
-		availableWidth -= self.horizontalPadding;
-		availableHeight -= self.verticalPadding;
-
-		if (enableScaleUp) {
-			newScale = Math.min(availableHeight/elementHeight, availableWidth/elementWidth);
-		}
-		else if (elementWidth > availableWidth || elementHeight > availableHeight) {
-			newScale = Math.min(availableHeight/elementHeight, availableWidth/elementWidth);
-		}
-		
-		return newScale;
-	}
-
-	self.keypressHandler = function(event) {
-		var rightKey = 39;
-		var leftKey = 37;
-		
-		// listen for both events 
-		if (event.type=="keypress") {
-			window.removeEventListener("keyup", self.keypressHandler);
-		}
-		else {
-			window.removeEventListener("keypress", self.keypressHandler);
-		}
-		
-		if (self.showNavigationControls) {
-			if (self.navigationOnKeypress) {
-				if (event.keyCode==rightKey) {
-					self.nextView();
-				}
-				if (event.keyCode==leftKey) {
-					self.previousView();
-				}
-			}
-		}
-		else if (self.navigationOnKeypress) {
-			if (event.keyCode==rightKey) {
-				self.nextView();
-			}
-			if (event.keyCode==leftKey) {
-				self.previousView();
-			}
-		}
-	}
-
-	///////////////////////////////////
-	// GENERAL FUNCTIONS
-	///////////////////////////////////
-
-	self.getViewById = function(id) {
-		id = id ? id.replace("#", "") : "";
-		var view = self.viewIds.indexOf(id)!=-1 && document.getElementById(id);
-		return view;
-	}
-
-	self.getViewIds = function() {
-		var viewIds = self.getViewPreferenceValue(document.body, self.prefix + "view-ids");
-		var viewId = null;
-
-		viewIds = viewIds!=null && viewIds!="" ? viewIds.split(",") : [];
-
-		if (viewIds.length==0) {
-			viewId = self.getViewPreferenceValue(document.body, self.prefix + "view-id");
-			viewIds = viewId ? [viewId] : [];
-		}
-
-		return viewIds;
-	}
-
-	self.getApplicationStylesheet = function() {
-		var stylesheetId = self.getViewPreferenceValue(document.body, self.prefix + "stylesheet-id");
-		self.applicationStylesheet = document.getElementById("applicationStylesheet");
-		return self.applicationStylesheet.sheet;
-	}
-
-	self.getViewQueries = function() {
-		var stylesheetId = self.getViewPreferenceValue(document.body, self.prefix + "stylesheet-id");
-		var viewIds = self.getViewIds();
-	}
-
-	self.getVisibleView = function() {
-		var viewIds = self.getViewIds();
-
-		try {
-			//var rules = self.getStylesheetRules();
-			//var styleSheet = self.getApplicationStylesheet();
-
-			/*
-			viewIds = rules[1].selectorText.split(/\,?\s+?#/);
-			if (viewIds[0]=="*") {
-				viewIds = rules[2].selectorText.split(/\,?\s+?#/);
-			}
-			*/
-		}
-		catch(error) {
-			console.log("For the page functionality to work the first two style declarations must be the generated ones.");
-			return;
-		}
-		
-		for (var i=0;i<viewIds.length;i++) {
-			var viewId = viewIds[i].replace(/[\#?\.?](.*)/, "$" + "1");
-			var view = document.getElementById(viewId);
-			var postName = "_Class";
-
-			if (view==null && viewId && viewId.lastIndexOf(postName)!=-1) {
-				view = document.getElementById(viewId.replace(postName, ""));
-			}
-			
-			if (view) {
-				var display = window.getComputedStyle(view).display;
-		
-				if (display=="block") {
-					return view;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	self.getViewIndex = function(view) {
-		var viewIds = self.getViewIds();
-		var id = view ? view.id : null;
-		var index = id && viewIds ? viewIds.indexOf(id) : -1;
-
-		return index;
-	}
-
-	self.syncronizeViewToURL = function() {
-		var fragment = window.location.hash;
-		var view = self.getViewById(fragment);
-		var index = view ? self.getViewIndex(view) : 0;
-		if (index==-1) index = 0;
-		var currentView = self.hideViews(index);
-
-		if (self.supportsPopState && currentView) {
-
-			if (fragment==null) {
-				window.history.replaceState({name:currentView.id}, null, "#"+ currentView.id);
-			}
-			else {
-				window.history.pushState({name:currentView.id}, null, "#"+ currentView.id);
-			}
-		}
-		return view;
-	}
-
-	self.getViewPreferenceBoolean = function(view, property) {
-		var value = window.getComputedStyle(view).getPropertyValue(property);
-		var type = typeof value;
-		
-		if (value=="true" || (type=="string" && value.indexOf("true")!=-1)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	self.getViewPreferenceValue = function(view, property) {
-		var value = window.getComputedStyle(view).getPropertyValue(property);
-
-		if (value===undefined) {
-			return null;
-		}
-		
-		value = value.replace(/^[\s\"]*/, "");
-		value = value.replace(/[\s\"]*$/, "");
-		value = value.replace(/^[\s"]*(.*?)[\s"]*$/, function (match, capture) { 
-			return capture;
-		});
-
-		return value;
-	}
-
-	self.getCSSPropertyValueForElement = function(id, property) {
-		var styleSheets = document.styleSheets;
-		var numOfStylesheets = styleSheets.length;
-		var values = [];
-		var selectorIDText = "#" + id;
-		var selectorClassText = "." + id + "_Class";
-		var value;
-
-		for(var i=0;i<numOfStylesheets;i++) {
-			var styleSheet = styleSheets[i];
-			var cssRules = self.getStylesheetRules(styleSheet);
-			var numOfCSSRules = cssRules.length;
-			var cssRule;
-			
-			for (var j=0;j<numOfCSSRules;j++) {
-				cssRule = cssRules[j];
-				
-				if (cssRule.media) {
-					var mediaRules = cssRule.cssRules;
-					var numOfMediaRules = mediaRules ? mediaRules.length : 0;
-					
-					for(var k=0;k<numOfMediaRules;k++) {
-						var mediaRule = mediaRules[k];
-						
-						if (mediaRule.selectorText==selectorIDText || mediaRule.selectorText==selectorClassText) {
-							
-							if (mediaRule.style && property in mediaRule.style) {
-								value = mediaRule.style.getPropertyValue(property);
-								//console.log(property+":" + value);
-								values.push(value);
-							}
-						}
-					}
-				}
-				else {
-
-					if (cssRule.selectorText==selectorIDText || cssRule.selectorText==selectorClassText) {
-						if (cssRule.style && property in cssRule.style) {
-							value = cssRule.style.getPropertyValue(property);
-							//console.log(property+":" + value);
-							values.push(value);
-						}
-					}
-				}
-			}
-		}
-		
-		return values.pop();
-	}
-
-	self.collectViews = function() {
-		var viewIds = self.getViewIds();
-
-		for (let index = 0; index < viewIds.length; index++) {
-			const id = viewIds[index];
-			const view = self.getViewById(id);
-			self.views[id] = view;
-		}
-		
-		self.viewIds = viewIds;
-	}
-
-	self.collectMediaQueries = function() {
-		var viewIds = self.getViewIds();
-		var styleSheet = self.getApplicationStylesheet();
-		var cssRules = self.getStylesheetRules(styleSheet);
-		var numOfCSSRules = cssRules ? cssRules.length : 0;
-		var cssRule;
-		var id = null;
-		var selectorIDText = "#" + id;
-		var selectorClassText = "." + id + "_Class";
-		
-		for (var j=0;j<numOfCSSRules;j++) {
-			cssRule = cssRules[j];
-			
-			if (cssRule.media) {
-				var mediaRules = cssRule.cssRules;
-				var numOfMediaRules = mediaRules ? mediaRules.length : 0;
-				
-				for(var k=0;k<numOfMediaRules;k++) {
-					var mediaRule = mediaRules[k];
-					var mediaId = null;
-
-					if (k<2) {
-						mediaId = mediaRule.selectorText.replace(/[#|\s|*]?/g, "");
-						
-						if (viewIds.indexOf(mediaId)!=-1) {
-							self.mediaQueryDictionary[mediaId] = cssRule;
-							self.addState(mediaId, cssRule);
-							break;
-						}
-					}
-					else {
-						break;
-					}
-				}
-			}
-			else {
-
-				if (cssRule.selectorText==selectorIDText || cssRule.selectorText==selectorClassText) {
-					continue;
-				}
-			}
-		}
-	}
-
-	self.addState = function(name, cssRule) {
-		var state = {name:name, rule:cssRule};
-		self.states.push(name);
-		self.statesDictionary[name] = state;
-	}
-
-	self.hasState = function(name) {
-		
-		if (self.states.indexOf(name)!=-1) {
-			return true;
-		}
-		return false;
-	}
-
-	self.goToState = function(name, maintainPreviousState) {
-		var state = self.statesDictionary[name];
-
-		if (state) {
-			if (maintainPreviousState==false || maintainPreviousState==null) {
-				self.hideViews();
-			}
-			self.enableMediaQuery(state.rule);
-			self.updateViewLabel();
-			self.updateURL();
-		}
-		else {
-			var event = new Event(self.STATE_NOT_FOUND);
-			self.stateName = name;
-			window.dispatchEvent(event);
-		}
-	}
-
-	self.resizeHandler = function(event) {
-		if (self.scaleViewsOnResize) {
-			var view = self.getVisibleView();
-			self.scaleViewToFit(view);
-		}
-	}
-
-	self.preventDoubleClick = function(event) {
-		event.stopImmediatePropagation();
-	}
-
-	self.hashChangeHandler = function(event) {
-		var fragment = window.location.hash ? window.location.hash.replace("#", "") : "";
-		var view = self.getViewById(fragment);
-
-		if (view) {
-			self.hideViews();
-			self.showView(view);
-			self.updateViewLabel();
-		}
-		else {
-			window.dispatchEvent(new Event(self.VIEW_NOT_FOUND));
-		}
-	}
-
-	self.popStateHandler = function(event) {
-		var state = event.state;
-		var fragment = state ? state.name : window.location.hash;
-		var view = self.getViewById(fragment);
-
-		if (view) {
-			self.hideViews();
-			self.showView(view);
-			self.updateViewLabel();
-		}
-		else {
-			window.dispatchEvent(new Event(self.VIEW_NOT_FOUND));
-		}
-	}
-
-	self.doubleClickHandler = function(event) {
-		var view = self.getVisibleView();
-		var scaleValue = view ? self.getViewScaleValue(view) : 1;
-		var scaleNeededToFit = view ? self.getViewFitToViewportScale(view) : 1;
-
-		// Three scenarios
-		// - scale to fit on double click
-		// - set scale to actual size on double click
-		// - switch between scale to fit and actual page size
-
-		// if scale and actual size enabled then switch between
-		if (self.scaleToFitOnDoubleClick && self.actualSizeOnDoubleClick) {
-			var isViewScaled = view.getAttributeNS(null, self.SIZE_STATE_NAME);
-			var isScaled = false;
-			
-			// if scale is not 1 then view needs scaling
-			if (scaleNeededToFit!=1) {
-
-				// if current scale is at 1 it is at actual size
-				// scale it to fit
-				if (scaleValue==1) {
-					self.scaleViewToFit(view);
-					isScaled = true;
-				}
-				else {
-					// scale is not at 1 so switch to actual size
-					self.scaleViewToActualSize(view);
-					isScaled = false;
-				}
-			}
-			else {
-				// view is smaller than viewport 
-				// so scale to fit() is scale actual size
-				// actual size and scaled size are the same
-				// but call scale to fit to retain centering
-				self.scaleViewToFit(view);
-				isScaled = false;
-			}
-			
-			view.setAttributeNS(null, self.SIZE_STATE_NAME, isScaled+"");
-			isViewScaled = view.getAttributeNS(null, self.SIZE_STATE_NAME);
-		}
-		else if (self.scaleToFitOnDoubleClick) {
-			self.scaleViewToFit(view);
-		}
-		else if (self.actualSizeOnDoubleClick) {
-			self.scaleViewToActualSize(view);
-		}
-
-	}
-
-	self.scaleViewToFit = function(view) {
-		return self.setViewScaleValue(view, 1, true, true);
-	}
-
-	self.scaleViewToActualSize = function(view) {
-		self.setViewScaleValue(view, 1);
-	}
-
-	self.onloadHandler = function(event) {
-		self.initialize();
-	}
-
-	self.getStackArray = function(error) {
-		var value = "";
-		
-		if (error==null) {
-		  try {
-			 error = new Error("Stack");
-		  }
-		  catch (e) {
-			 
-		  }
-		}
-		
-		if ("stack" in error) {
-		  value = error.stack;
-		  var methods = value.match(/\\n/gm);
-	 
-		  var newArray = methods ? methods.map(function (value, index, array) {
-			 value = value.replace("at ","");
-			 return value;
-		  }) : null;
-	 
-		  if (newArray && newArray[0]=="getStackTrace") {
-			 newArray.shift();
-		  }
-		  if (newArray && newArray[0]=="getStackArray") {
-			 newArray.shift();
-		  }
-		  if (newArray && newArray[0]=="getFunctionName") {
-			 newArray.shift();
-		  }
-		  if (newArray && newArray[0]=="object") {
-			 newArray.shift();
-		  }
-		  if (newArray && newArray[0]=="log") {
-			 newArray.shift();
-		  }
-	 
-			return newArray;
-		}
-		
-		return null;
-	}
-
-	this.log = function(value) {
-		console.log.apply(this, [value]);
-	}
-	
-	// initialize on load
-	// sometimes the body size is 0 so we call this now and again later
-	window.addEventListener("load", self.onloadHandler);
-	window.document.addEventListener("DOMContentLoaded", self.onloadHandler);
-}
-
-
-var application = new Application();
-window.application = application;
-</script>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs&libraries=places&callback=initAutocomplete">
-</script>
 
 <script>
-var fromInput = document.getElementById('from-input');
-var fromAutocomplete = new google.maps.places.Autocomplete(fromInput);
-var toInput = document.getElementById('to-input');
-var toAutocomplete = new google.maps.places.Autocomplete(toInput);
-
-fromAutocomplete.addListener('place_changed', function() {
-  var place = fromAutocomplete.getPlace();
-  console.log(place.name);
+    $(function () {
+ $(".menu-link").click(function () {
+  $(".menu-link").removeClass("is-active");
+  $(this).addClass("is-active");
+ });
 });
 
-toAutocomplete.addListener('place_changed', function() {
-  var place = toAutocomplete.getPlace();
-  console.log(place.name);
+$(function () {
+ $(".main-header-link").click(function () {
+  $(".main-header-link").removeClass("is-active");
+  $(this).addClass("is-active");
+ });
 });
+
+const dropdowns = document.querySelectorAll(".dropdown");
+dropdowns.forEach((dropdown) => {
+ dropdown.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdowns.forEach((c) => c.classList.remove("is-active"));
+  dropdown.classList.add("is-active");
+ });
+});
+
+$(".search-bar input")
+ .focus(function () {
+  $(".header").addClass("wide");
+ })
+ .blur(function () {
+  $(".header").removeClass("wide");
+ });
+
+$(document).click(function (e) {
+ var container = $(".status-button");
+ var dd = $(".dropdown");
+ if (!container.is(e.target) && container.has(e.target).length === 0) {
+  dd.removeClass("is-active");
+ }
+});
+
+$(function () {
+ $(".dropdown").on("click", function (e) {
+  $(".content-wrapper").addClass("overlay");
+  e.stopPropagation();
+ });
+ $(document).on("click", function (e) {
+  if ($(e.target).is(".dropdown") === false) {
+   $(".content-wrapper").removeClass("overlay");
+  }
+ });
+});
+
+$(function () {
+ $(".status-button:not(.open)").on("click", function (e) {
+  $(".overlay-app").addClass("is-active");
+ });
+ $(".pop-up .close").click(function () {
+  $(".overlay-app").removeClass("is-active");
+ });
+});
+
+$(".status-button:not(.open)").click(function () {
+ $(".pop-up").addClass("visible");
+});
+
+$(".pop-up .close").click(function () {
+ $(".pop-up").removeClass("visible");
+});
+
+const toggleButton = document.querySelector('.dark-light');
+
+toggleButton.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+});
+
+
 </script>
 
-<script>
-fromAutocomplete.addListener('place_changed', function() {
-  checkBothFieldsFilled();
-});
-toAutocomplete.addListener('place_changed', function() {
-  checkBothFieldsFilled();
-});
-
-function checkBothFieldsFilled() {
-  var fromLocation = document.getElementById('from-input').value;
-  var toLocation = document.getElementById('to-input').value;
-
-  if (fromLocation && toLocation) {
-    calculateRoute(fromLocation, toLocation);
-  }
-}
+</head>
 
 
+<body>
+<!-- partial:index.partial.html -->
+<div class="video-bg">
+ <video width="320" height="240" autoplay loop muted>
+  <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+<div class="dark-light">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+   </div>
+<div class="app">
+ <div class="header">
+  <div class="menu-circle"></div>
+  <div class="header-menu">
+   <p>Rider's Homepage</p>
+  </div>
+  
+  <div class="header-profile">
+   
+   <svg viewBox="0 0 512 512" fill="currentColor">
+    <path d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
+   </svg>
+   <img class="profile-img" src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="">
+  </div>
+ </div>
+ <div class="wrapper">
+  <div class="left-side">
+      
+      <input id="origin-input" class="controls" type="text"
+        placeholder="Pickup Location" />
+      
+      <input id="destination-input" class="controls" type="text"
+          placeholder="Dropoff Location">
 
-</script>
+  </div>
+  <div class="main-container">
+    
+  
+      <div id="map"></div>
 
-<script>
-		function calculatePriceRange(dist, cpk, min_fare, locality) {
-  const bf = 40; // Set the base fare to a constant value of 40
-  let total_fare = 0;
+    
+    
+  </div>
+ </div>
+ <div class="overlay-app"></div>
+</div>
+<!-- partial -->
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script> -->
+  <script>
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-  // Calculate the fare for the first kilometer
-  total_fare = bf + cpk;
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeControl: false,
+        center: {lat:12.97348231857953,   lng: 77.57694477402198,},
+        zoom: 13
+      });
+      //const service = new google.maps.DistanceMatrixService();
+      new AutocompleteDirectionsHandler(map);
+    }
 
-  // Check if the total fare is less than the minimum fare
-  if (total_fare < min_fare) {
-    total_fare = min_fare;
-  }
+     /**
+      * @constructor
+     */
+    function AutocompleteDirectionsHandler(map) {
+      this.map = map;
+      this.geocoder = new google.maps.Geocoder();
+      this.originPlaceId = null;
+      this.destinationPlaceId = null;
+      this.travelMode = 'DRIVING';
+      var originInput = document.getElementById('origin-input');
+      var destinationInput = document.getElementById('destination-input');
+      
+      this.directionsService = new google.maps.DirectionsService;
+      this.directionsDisplay = new google.maps.DirectionsRenderer;
+      this.directionsDisplay.setMap(map);
 
-  // Set the cost per kilometer based on the distance
-  if (dist <= 5) {
-    cpk = 10;
-  } else if (dist <= 10) {
-    cpk = 8;
-  } else if (dist <= 15) {
-    cpk = 7;
-  } else {
-    cpk = 7;
-  }
+      var originAutocomplete = new google.maps.places.Autocomplete(
+          originInput, {placeIdOnly: true});
+      var destinationAutocomplete = new google.maps.places.Autocomplete(
+          destinationInput, {placeIdOnly: true});
 
-  // Calculate the total fare based on the distance and cost per kilometer
-  total_fare += cpk * dist;
+      
 
-  // Adjust the fare based on locality
-  if (locality === 'suburb') {
-    total_fare *= 1.05; // Increase fare by 5%
-  } else if (locality === 'countryside') {
-    total_fare *= 0.95; // Decrease fare by 5%
-  }
+      this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+      this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-  // Calculate the price range based on a percentage of the calculated fare
-  const upper_limit = total_fare * 1.2; // Set the upper limit to 120% of the calculated fare
-  const price_range = [total_fare, upper_limit];
+      //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
+      //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
+      //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
+    }
 
-  // Return the optimal cost range as an array
-  return price_range;
-}
+    // // Sets a listener on a radio button to change the filter type on Places
+    // // Autocomplete.
+    // AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
+    //   var radioButton = document.getElementById(id);
+    //   var me = this;
+    //   radioButton.addEventListener('click', function() {
+    //     me.travelMode = mode;
+    //     me.route();
+    //   });
+    // };
 
 
-	function calculateFare() {
-  // Get the from and to addresses entered by the rider
-  const from = document.getElementById('from-input').value;
-  const to = document.getElementById('to-input').value;
+    AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
+      var me = this;
+      autocomplete.bindTo('bounds', this.map);
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.place_id) {
+          window.alert("Please select an option from the dropdown list.");
+          return;
+        }
+        if (mode === 'ORIG') {
+          me.originPlaceId = place.place_id;
+        } else {
+          me.destinationPlaceId = place.place_id;
+        }
+        me.route();
+      });
 
-  // Call the Maps Javascript API service to get the distance and locality
-  const service = new google.maps.DistanceMatrixService();
+    };
+
+    AutocompleteDirectionsHandler.prototype.route = function() {
+      if (!this.originPlaceId || !this.destinationPlaceId) {
+        return;
+      }
+      var me = this;
+
+      this.directionsService.route({
+        origin: {'placeId': this.originPlaceId},
+        destination: {'placeId': this.destinationPlaceId},
+        travelMode: this.travelMode
+      }, function(response, status) {
+        if (status === 'OK') {
+          me.directionsDisplay.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+    };
+
+    const origin = document.getElementById('origin-input');
+    const destination = document.getElementById('destination-input');
+
+    function calculateDistanceMatrix(origin, destination) {
+  var service = new google.maps.DistanceMatrixService();
+  var mode = autocompleteDirectionsHandler.travelMode;
+
   service.getDistanceMatrix({
-    origins: [from],
-    destinations: [to],
+    origins: [origin],
+    destinations: [destination],
     travelMode: 'DRIVING',
     unitSystem: google.maps.UnitSystem.METRIC,
-    avoidHighways: false,
-    avoidTolls: false,
-  }, (response, status) => {
-    if (status === 'OK') {
-      const distance = response.rows[0].elements[0].distance.value / 1000; // Distance in km
-      const locality = response.destinationAddresses[0].split(',').slice(-1)[0].trim(); // Locality of the destination address
-
-      // Call the calculateFare function to get the fare price range
-      const priceRange = calculatePriceRange(distance, locality);
-
-      // Update the button text with the fare price range
-      const fareBtn = document.getElementById('calculate-fare-btn');
-      fareBtn.innerHTML = `Price Range: Rs. ${priceRange[0]} - Rs. ${priceRange[1]}`;
-      fareBtn.disabled = true; // Disable the button
-    } else {
-      alert(`Error: ${status}`);
+  }, function(response, status) {
+    if (status !== 'OK') {
+      alert('Error: ' + status);
+      return;
     }
+
+    var originAddress = response.originAddresses[0];
+    var destinationAddress = response.destinationAddresses[0];
+    var distance = response.rows[0].elements[0].distance.text;
+    var duration = response.rows[0].elements[0].duration.text;
+    console.log(distance, duration);
+    // Update HTML to display distance and duration
+    document.getElementById('distance').innerHTML = distance;
+    document.getElementById('duration').innerHTML = duration;
   });
 }
 
-</script>
-</head>
-<body>
-<div id="ID5_Android___2">
-	<svg class="Rectangle_7">
-		<rect id="Rectangle_7" rx="0" ry="0" x="0" y="0" width="360" height="86">
-		</rect>
-	</svg>
-	<div id="Group_39">
-			<a href="/logout">
-		<svg class="Path_85" viewBox="1.264 -13.685 18.217 23.102">
-			
-			<path id="Path_85" d="M 1.264204382896423 9.416234970092773 L 1.264204382896423 -13.68534851074219 L 10.37850189208984 -13.68534851074219 C 13.00299739837646 -13.68534851074219 15.03904914855957 -13.00102615356445 16.48665809631348 -11.63237571716309 C 17.93426704406738 -10.26372528076172 18.6580696105957 -8.432592391967773 18.65807151794434 -6.138981819152832 C 18.65807151794434 -4.559771060943604 18.30650901794434 -3.209922313690186 17.60338401794434 -2.089436531066895 C 16.90026092529297 -0.9689502716064453 15.89069652557373 -0.1267051696777344 14.57468700408936 0.4372985363006592 L 19.48151588439941 9.416234970092773 L 14.08964347839355 9.416234970092773 L 9.712977409362793 1.226903915405273 L 6.148475170135498 1.226903915405273 L 6.148475170135498 9.416234970092773 L 1.264204382896423 9.416234970092773 Z M 6.148475170135498 -2.69856071472168 L 9.464816093444824 -2.69856071472168 C 12.23971271514893 -2.698559999465942 13.62716197967529 -3.845367193222046 13.62716197967529 -6.138981819152832 C 13.62716197967529 -8.507796287536621 12.23219203948975 -9.692203521728516 6.148475170135498 -9.692203521728516 L 6.148475170135498 -2.69856071472168 Z">
-			</path>
-		</svg>
-		</a>
-		<svg class="Path_83" viewBox="0.54 -14.545 18.68 18.442">
-			<path id="Path_83" d="M 3.833553314208984 -14.54545307159424 L 9.7894287109375 -6.873310089111328 L 9.969911575317383 -6.873310089111328 L 15.92578601837158 -14.54545307159424 L 19.21956825256348 -14.54545307159424 L 11.95520401000977 -5.324472427368164 L 19.21956825256348 3.896508932113647 L 15.92578601837158 3.896508932113647 L 9.969911575317383 -3.631556987762451 L 9.7894287109375 -3.631556987762451 L 3.833553314208984 3.896508932113647 L 0.539772629737854 3.896508932113647 L 7.984619140625 -5.324472427368164 L 0.539772629737854 -14.54545307159424 L 3.833553314208984 -14.54545307159424 Z">
-			</path>
-		</svg>
-	</div>
-	<div id="Nearest_vehicle_is">
-		<span>Nearest vehicle is</span>
-	</div>
-	<div id="ID3_min_away">
-		<span>3 min away</span>
-	</div>
-	<svg class="Rectangle_3">
-		<rect id="Rectangle_3" rx="0" ry="0" x="0" y="0" width="278" height="40">
-		</rect>
-	</svg>
-            <form class="auth__form mt-5" autocomplete="off" method="POST">
-			<div id="From">
-				<span>From</span>
-			</div>
-			<div id="_____From">
-		       <input name="from" id = "from-input" type="text" class="first_name form-control" placeholder="Dheeraj Darshan,Jogeshwari East,Mumbai" required="true">
-			</div>
-			<svg class="Rectangle_3_A12_Rectangle_3">
-				<rect id="Rectangle_3_A12_Rectangle_3" rx="0" ry="0" x="0" y="0" width="278" height="40">
-				</rect>
-			</svg>
-			<div id="To">
-				<span>To</span>
-			</div>
-			<div id="Group_30">
-				<svg class="Rectangle_6">
-					<rect id="Rectangle_6" rx="22.5" ry="22.5" x="0" y="0" width="170" height="45">
-					</rect>
-				</svg>
-				<div id="Ride_now">
-					<button name="submit" class="btn btn-primary btn-lg btn-block">
-					    Ride Now
-					</button>
-				</div>
-			</div>
-			<div id="_____To">
-				      <input name="to" id = "to-input" type="text" class="first_name form-control" placeholder="KJSCE,Vidyavihar,Mumbai" require="true">
-			</div>
 
-			<button id="calculate-fare-btn" onclick="calculateFare()">Calculate Fare</button>
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs&libraries=places&callback=initMap"
+      async defer></script>
 
-
-
-		</form>
-</div>
 </body>
 </html>
