@@ -33,11 +33,12 @@ module.exports=(app)=>{
     }); 
 
     app.post("/homer",async (req,res)=>{
+        console.log(req.body);
         if(req.session.username)
         {
        
-        const from=req.body.origin-input;
-        const to=req.body.destination-input;
+        const from=req.body.from;
+        const to=req.body.to;
 
         const currentRide=new CurrentRide({
             from:from,
