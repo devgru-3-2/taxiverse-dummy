@@ -7,6 +7,12 @@ const CurrentRide=require("../models/Auction");
 const abi=require("../user_contract").abi2;
 const address=require("../user_contract").address2;
 
+const axios = require('axios');
+const geocodingAPIKey = process.env.MAPS_API_KEY;
+
+
+const calculateFare = require('../models/fareCalculator').calculateFare;
+
 
 module.exports=(app)=>{
     app.get("/homer",async (req,res)=>{
@@ -39,10 +45,16 @@ module.exports=(app)=>{
        
         const from=req.body.from;
         const to=req.body.to;
+        const dist = String(req.body.dist);
+        const time = String(req.body.dura);
+
 
         const currentRide=new CurrentRide({
+            
             from:from,
             to:to,
+            dist:dist,
+            dura:time,
             username:req.session.username,
             status:"AVL",
             bids:[]
@@ -55,14 +67,45 @@ module.exports=(app)=>{
         console.error(err);
         });
 
-
         req.session.On=true;
         res.redirect("/currentbids");
-  
-        
     }
 
-    });
+});
+
+       /* const geocodingAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(to)}&key=${geocodingAPIKey}`;
+        const response = await axios.get(geocodingAPIUrl);
+        const localityType = response.data.results[0].address_components.find(component => component.types.includes('locality')).long_name;
+        
+        console.log(localityType);
+
+        const fareRange = calculateFare(dist, localityType);
+
+        console.log(fareRange);
+
+
+        const currentRide=new CurrentRide({
+            username:req.session.username,
+            from:from,
+            to:to,
+            dist:dist,
+            dura:time,
+            range: fareRange,
+            status:"AVL",
+            bids:[]
+        });
+        await currentRide.save()
+        .then(() => {
+                console.log("Current ride saved successfully.");
+            })
+        .catch((err) => {
+        console.error(err);
+        });*/
+
+
+  
+        
+    
 
     app.get("/currentbids",async (req,res)=>{
         if(req.session.username){
@@ -78,7 +121,7 @@ module.exports=(app)=>{
                 // console.log(bids);
                 message="No bids yet";
             }
-            res.render("bid",{to:dbRecord.to,from:dbRecord.from,bid:bids,message:message});
+            res.render("bid",{to:dbRecord.to,from:dbRecord.from,range:dbRecord.range,bid:bids,message:message});
             }
         }else{
             res.redirect("/");
