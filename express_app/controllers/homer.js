@@ -6,11 +6,13 @@ const session=require("express-session");
 const CurrentRide=require("../models/Auction");
 const abi=require("../user_contract").abi2;
 const address=require("../user_contract").address2;
+const express = require('express');
+const app = express();
+app.use(express.json());
 
 const axios = require('axios');
 const geocodingAPIKey = process.env.MAPS_API_KEY;
-
-
+app.use(express.json());
 const calculateFare = require('../models/fareCalculator').calculateFare;
 
 
@@ -42,19 +44,54 @@ module.exports=(app)=>{
         console.log(req.body);
         if(req.session.username)
         {
-       
+        app.use(express.json());
         const from=req.body.from;
         const to=req.body.to;
         const dist = String(req.body.dist);
         const time = String(req.body.dura);
 
+        const distanceNum = Number(dist.replace(/[^\d.]/g, ''));
 
+        console.log(distanceNum);
+
+        const geocodingAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(to)}&key=AIzaSyDt_Ie8k___t-51kX_dHUmPzXMzB6zBRIs`;
+        console.log(to);
+        const response = await axios.get(geocodingAPIUrl);
+        console.log(response.data.results[0].address_components);
+        const localityType = response.data.results[0].address_components.find(component => component.types.includes('locality')).long_name;
+        
+        console.log(localityType);
+
+        const fareRange = calculateFare(distanceNum, localityType);
+
+        console.log(fareRange);
+
+
+        
+        /*const currentRide=new CurrentRide({
+            username:req.session.username,
+            from:from,
+            to:to,
+            dist:dist,
+            dura:time,
+            range: fareRange,
+            status:"AVL",
+            bids:[]
+        });
+        await currentRide.save()
+        .then(() => {
+                console.log("Current ride saved successfully.");
+            })
+        .catch((err) => {
+        console.error(err);
+        });*/
         const currentRide=new CurrentRide({
             
             from:from,
             to:to,
             dist:dist,
             dura:time,
+            range: fareRange,
             username:req.session.username,
             status:"AVL",
             bids:[]
@@ -72,36 +109,6 @@ module.exports=(app)=>{
     }
 
 });
-
-       /* const geocodingAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(to)}&key=${geocodingAPIKey}`;
-        const response = await axios.get(geocodingAPIUrl);
-        const localityType = response.data.results[0].address_components.find(component => component.types.includes('locality')).long_name;
-        
-        console.log(localityType);
-
-        const fareRange = calculateFare(dist, localityType);
-
-        console.log(fareRange);
-
-
-        const currentRide=new CurrentRide({
-            username:req.session.username,
-            from:from,
-            to:to,
-            dist:dist,
-            dura:time,
-            range: fareRange,
-            status:"AVL",
-            bids:[]
-        });
-        await currentRide.save()
-        .then(() => {
-                console.log("Current ride saved successfully.");
-            })
-        .catch((err) => {
-        console.error(err);
-        });*/
-
 
   
         
