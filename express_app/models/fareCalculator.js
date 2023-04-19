@@ -1,6 +1,9 @@
 function calculateFare(dist, locality) {
     const bf = 40; // Set the base fare to a constant value of 40
     let total_fare = 0;
+    let cpk = 0; // Cost per kilometer
+
+    
   
     // Calculate the fare for the first kilometer
     total_fare = bf + cpk;
