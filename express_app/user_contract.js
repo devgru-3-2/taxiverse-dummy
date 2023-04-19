@@ -123,7 +123,7 @@ const abi2=[
 	}
 ];
 
-const address2="0x295226f2DAE77a1c910F4Ad67C9F45BEECff25b4"; //user contract address
+const address2="0xCB26C526c9e6b445df26b6B504eF027405634310"; //user contract address
 module.exports.abi2=abi2;
 module.exports.address2=address2;
 
