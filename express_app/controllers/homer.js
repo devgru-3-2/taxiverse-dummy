@@ -128,7 +128,7 @@ module.exports=(app)=>{
                 // console.log(bids);
                 message="No bids yet";
             }
-            res.render("bid",{to:dbRecord.to,from:dbRecord.from,range:dbRecord.range,bid:bids,message:message});
+            res.render("bid",{to:dbRecord.to,from:dbRecord.from,range:dbRecord.range,bids:bids,message:message});
             }
         }else{
             res.redirect("/");
