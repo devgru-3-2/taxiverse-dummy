@@ -7,47 +7,58 @@ const CurrentRide=require("../models/Auction");
 const abi=require("../user_contract").abi2;
 const address=require("../user_contract").address2;
 const Tx = require('ethereumjs-tx').Transaction;
+const { Common, Chain, Hardfork } = require('@ethereumjs/common')
 
 
 module.exports=(app)=>{
-    app.get("/homed",async (req,res)=>{
-        
-        if(req.session.username!==undefined){
-            
-            if(req.session.userType==="Driver"){
-                const findExisting= await CurrentRide.find({'bids.bidder':req.session.username});
-                console.log(findExisting);
-
-                if(findExisting.length===0){
-                    const checkFinal=await CurrentRide.find({finalBidder:req.session.username});
-                    if(checkFinal.length===0){
-                        const allRecords=await CurrentRide.find({});
-                        res.render("homed",{rides:allRecords});
-                    }else{
-                        res.redirect("/finald");
-                    }
-                  
-                }else{
-                    const currentBid=findExisting[0];
-                    let value;
-                    for(var i=0;i<currentBid.bids.length;i++){
-                        if(bidder=req.session.username){
-                            value=currentBid.bids[i].value;
-                        }
-
-                    }
-                    res.render("dbid",{from:currentBid.from,to:currentBid.to,value:value,status:"pending"});
+    app.get("/homed", async (req, res) => {
+        if (req.session.username !== undefined) {
+          if (req.session.userType === "Driver") {
+            const findExisting = await CurrentRide.find({'bids.bidder': req.session.username});
+            console.log(findExisting);
+      
+            if (findExisting.length === 0) {
+              const checkFinal = await CurrentRide.find({finalBidder: req.session.username});
+              if (checkFinal.length === 0) {
+                const allRecords = await CurrentRide.find({});
+                const rides = allRecords.map((record) => ({
+                  username: record.username,
+                  to: record.to,
+                  from: record.from,
+                  dist: record.dist,
+                  dura: record.dura,
+                  range: [record.range[0], record.range[1]], // add the range field here
+                  status: record.status,
+                  bids: record.bids,
+                  finalBidder: record.finalBidder,
+                  finalValue: record.finalValue
+                }));
+                res.render("homed", {rides});
+              } else {
+                res.redirect("/finald");
+              }
+            } else {
+              const currentBid = findExisting[0];
+              let value;
+              for (var i = 0; i < currentBid.bids.length; i++) {
+                if (bidder = req.session.username) {
+                  value = currentBid.bids[i].value;
                 }
-
-                
-            }else{
-                res.render("homer",{});
+              }
+              res.render("dbid", {
+                from: currentBid.from,
+                to: currentBid.to,
+                value: value,
+                status: "pending"
+              });
             }
-        }else{
-            res.redirect("/");
+          } else {
+            res.render("homer", {});
+          }
+        } else {
+          res.redirect("/");
         }
-        
-    });
+      });
     app.post("/homed",async(req,res)=>{
         const customerUsername=req.body.username;
         const value=req.body.value;
@@ -136,7 +147,7 @@ module.exports=(app)=>{
         const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
 
         const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );
-
+        const common = new Common({ chain: 'goerli', hardfork: 'berlin' })
         web3.eth.defaultAccount = addresss;
         console.log( web3.utils.toWei(fare,"ether"),web3.utils.toHex(web3.utils.toWei(fare,"ether")));
         //signs trans
@@ -165,7 +176,7 @@ module.exports=(app)=>{
         // }
 
         //with raw Transaction
-        var tx = new Tx(rawTrans,{ chain:'goerli',hardfork: 'petersburg'});
+        var tx = new Tx(rawTrans,{common});
         tx.sign(privateKey);
         
         var serializedTx = tx.serialize();

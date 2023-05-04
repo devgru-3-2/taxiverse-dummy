@@ -13,7 +13,7 @@ const CurrentRideSchema = new mongoose.Schema({
       value: { type: Number },
       bidder: { type: String },
       vehicle: { type: String },
-      vehicaleNo: { type: Number }
+      vehicleNo: { type: String }
    }],
    finalBidder: { type: String },
    finalValue: { type: String }
