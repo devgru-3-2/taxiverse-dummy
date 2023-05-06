@@ -50,7 +50,7 @@ const REF_ADDRESS = "0x483C5100C3E544Aef546f72dF4022c8934a6945E";
 module.exports=(app)=>{
    app.get("/test", async (req,res)=>{
       const provider=new HDwalletprovider(
-         "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+         "...",
          'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
        );
   
@@ -84,7 +84,7 @@ module.exports=(app)=>{
    console.log(requestData);
    // console.log( web3.utils.toWei(fare,"ether"),web3.utils.toHex(web3.utils.toWei(fare,"ether")));
    //signs trans
-      const sender="ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781";
+      const sender="...";
        const trans = await web3.eth.accounts.signTransaction(
          requestData.data
        ,sender);        
@@ -153,7 +153,7 @@ const broadcast=async (from, to, txData, value, gasLimit)=>{
 
    var tx = new Tx(rawTx,{ chain:'goerli',hardfork: 'petersburg'});
    console.log(rawTx);
-   const keyBuffer=Buffer.from("ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781","hex");
+   const keyBuffer=Buffer.from("...","hex");
    tx.sign(keyBuffer);
    const serializedTx = tx.serialize();
    console.log(serializedTx);
