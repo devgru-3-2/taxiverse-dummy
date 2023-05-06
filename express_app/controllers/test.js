@@ -12,7 +12,7 @@ const address=require("../user_contract").address2;
 
 
 const app = express();
-const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
+const testnet = 'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8';
 
 const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );
 const SRC_TOKEN = "ETH";
@@ -50,8 +50,8 @@ const REF_ADDRESS = "0x483C5100C3E544Aef546f72dF4022c8934a6945E";
 module.exports=(app)=>{
    app.get("/test", async (req,res)=>{
       const provider=new HDwalletprovider(
-         "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
-         'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
+         "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+         'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
        );
   
        const web3=new Web3(provider);
@@ -84,7 +84,7 @@ module.exports=(app)=>{
    console.log(requestData);
    // console.log( web3.utils.toWei(fare,"ether"),web3.utils.toHex(web3.utils.toWei(fare,"ether")));
    //signs trans
-      const sender="0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f";
+      const sender="ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781";
        const trans = await web3.eth.accounts.signTransaction(
          requestData.data
        ,sender);        
@@ -97,7 +97,7 @@ module.exports=(app)=>{
    var privateKey = new Buffer.from(sender, 'hex');
 
    //with raw Transaction
-   var tx = new Tx(rawTrans,{ chain:'ropsten',hardfork: 'petersburg'});
+   var tx = new Tx(rawTrans,{ chain:'sepolia',hardfork: 'petersburg'});
    tx.sign(privateKey);
    
    var serializedTx = tx.serialize();
@@ -111,7 +111,7 @@ module.exports=(app)=>{
   });
 
   app.get("/kyber2",async(req,res)=>{
-   const testnet = 'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e';
+   const testnet = 'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8';
    const web3 = new Web3( new Web3.providers.HttpProvider(testnet) );   
    
    let results = await getRates(SRC_TOKEN_ADDRESS, DST_TOKEN_ADDRESS, SRC_QTY_WEI);
@@ -153,7 +153,7 @@ const broadcast=async (from, to, txData, value, gasLimit)=>{
 
    var tx = new Tx(rawTx,{ chain:'goerli',hardfork: 'petersburg'});
    console.log(rawTx);
-   const keyBuffer=Buffer.from("0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f","hex");
+   const keyBuffer=Buffer.from("ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781","hex");
    tx.sign(keyBuffer);
    const serializedTx = tx.serialize();
    console.log(serializedTx);

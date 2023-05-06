@@ -52,8 +52,8 @@ module.exports=(app)=>{
         identity.compressed=newCompressed;
 
         const provider=new HDwalletprovider(
-            "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
-            'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
+            "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+            'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
          );
  
         const web=new Web3(provider);
@@ -61,9 +61,17 @@ module.exports=(app)=>{
         console.log("provider set");
  
         const contract=new web.eth.Contract(abi,address);
-        const response= await contract.methods.set(name,username,phno,vehicle,vehicleNo,userType,password,privateKey).send({
-             from:"0xB5cdfAaFF9E47f8057FCa9cb47C06427598CCE6b"   
-        });
+        try {
+            const response = await contract.methods.set(name, username, phno, vehicle, vehicleNo, userType, password, privateKey).send({
+                from: "0x78E0F6ECb2cC7E14E3D52d03335322218FEb4A55"
+            });
+            // Handle successful response here
+        } catch (err) {
+            console.log(err);
+            // Handle error here, for example:
+            res.status(500).send('Error occurred while processing your request.');
+        }
+        
 
 
 
@@ -73,7 +81,4 @@ module.exports=(app)=>{
 
         res.redirect("/homer");
 });
-
-    
-
 }

@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const CurrentRideSchema = new mongoose.Schema({
@@ -16,7 +15,16 @@ const CurrentRideSchema = new mongoose.Schema({
       vehicleNo: { type: String }
    }],
    finalBidder: { type: String },
-   finalValue: { type: String }
+   finalValue: { type: String },
+   createdAt: { 
+      type: Date, 
+      default: Date.now, 
+      get: (createdAt) => {
+         const date = new Date(createdAt);
+         const options = { timeZone: "Asia/Kolkata", hour12: false };
+         return date.toLocaleString("en-US", options);
+      }
+   }
 });
 
 const CurrentRide = mongoose.model("CurrentRide", CurrentRideSchema);

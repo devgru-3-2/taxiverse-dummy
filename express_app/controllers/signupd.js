@@ -26,85 +26,57 @@ module.exports=(app)=>{
         }
     });
 
-    app.post("/signupd",async (req,res)=>{
-        var name=req.body.name;
-        var phno=req.body.phno;
-        var username=req.body.email;
-        var password=req.body.password;
-        var vehicle=req.body.vehicle;
-        var vehicleNo=req.body.vehicle_num;
+    app.post("/signupd", async (req, res) => {
+        var name = req.body.name;
+        var phno = req.body.phno;
+        var username = req.body.email;
+        var password = req.body.password;
+        var vehicle = req.body.vehicle;
+        var vehicleNo = req.body.vehicle_num;
         var userType = 'Driver';
-
+    
         // Creating identity
-        var identity=createIdentity();
-
+        var identity = createIdentity();
+    
         console.log(identity);
-        const publicKey=identity.publicKey;
-        const privateKey=identity.privateKey;
-
-        const newCompressed=ethCrypto.publicKey.compress(
+        const publicKey = identity.publicKey;
+        const privateKey = identity.privateKey;
+    
+        const newCompressed = ethCrypto.publicKey.compress(
             publicKey
         );
-        identity.compressed=newCompressed;
-        
-        
-
-        // Setting provider and web3
-        const provider=new HDwalletprovider(
-            "0610fa82d89b7230824eeecb75156aa975608dd0c4525f4a635ccb710601df9f",
-            'https://goerli.infura.io/v3/121dd66cc4b74939942a0fbf12c2ad8e'
-        );
-
-        const web=new Web3(provider);
-
-        console.log("provider set");
-
-        const contract=new web.eth.Contract(abi,address);
-        const response= await contract.methods.set(name,username,phno,vehicle,vehicleNo,userType,password,privateKey).send({
-            from:"0xB5cdfAaFF9E47f8057FCa9cb47C06427598CCE6b"   
-        });
-
-
-
-
-
-        // --------------------------------------------------------------------------------------------------
-
-        req.session.username=username;
-        req.session.privateKey=privateKey;
-        req.session.userType=userType;
-        res.redirect("/homed");
-        //console.log("deployed --contract deployment left");
-/*      Code to download keys    
-        // Setting up sessions
-        req.session.identity=identity;
-        
-        console.log(req.session);
-        
-
-        //writing to a file
-        var path=__dirname+"/"+identity.compressed+".txt";
-        
-        var data={
-            identity1:identity,
-        };
+        identity.compressed = newCompressed;
     
-        fs.writeFileSync(path,JSON.stringify(data),'utf8',(err)=>{
+        // Setting provider and web3
+        const provider = new HDwalletprovider(
+            "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+            'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
+        );
+    
+        const web = new Web3(provider);
+    
+        console.log("provider set");
+    
+        const contract = new web.eth.Contract(abi, address);
+    
+        try {
+            const response = await contract.methods.set(name, username, phno, vehicle, vehicleNo, userType, password, privateKey).send({
+                from: "0x78E0F6ECb2cC7E14E3D52d03335322218FEb4A55"
+            });
+    
+            req.session.username = username;
+            req.session.privateKey = privateKey;
+            req.session.userType = userType;
+    
+            res.redirect("/homed");
+    
+        } catch (err) {
             console.log(err);
-        });
-
-
-        // download file
-        // res.setHeader('Content-disposition', 'attachment; filename=' + identity.address+".txt");
-        res.download(path,identity.compressed+'.txt',(err)=>{
-            if(err){
-                console.log(err);
-            }else{
-                
-            }
-        });
-*/
-});
+            res.status(500).send('Error occurred while processing your request.');
+        }
+    
+    });
+    
 
 
 }
