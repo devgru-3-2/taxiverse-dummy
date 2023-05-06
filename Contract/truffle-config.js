@@ -6,7 +6,7 @@ const privateKeys = [
 ];
 
 const SEPOLIA_RPC_URL = `...`;
-const mnemonic =...
+const mnemonic = "...";
 
 module.exports = {
   compilers: {
