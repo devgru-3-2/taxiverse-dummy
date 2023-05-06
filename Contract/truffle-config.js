@@ -2,11 +2,11 @@ require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const privateKeys = [
-  "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781"
+  "..."
 ];
 
-const SEPOLIA_RPC_URL = `https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8`;
-const mnemonic = "toddler tobacco west unable feature drip dream decide album tornado agent shed";
+const SEPOLIA_RPC_URL = `...`;
+const mnemonic = "...";
 
 module.exports = {
   compilers: {
