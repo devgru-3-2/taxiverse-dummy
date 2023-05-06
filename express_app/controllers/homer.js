@@ -150,7 +150,7 @@ module.exports=(app)=>{
         if(req.session.username!==undefined){
         const getBidder=await CurrentRide.find({username:req.session.username});
         const provider=new HDwalletprovider(
-            "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+            "...",
             'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
          );
         const web3=new Web3(provider);
@@ -183,7 +183,7 @@ module.exports=(app)=>{
         const currentUser= await CurrentRide.findOneAndUpdate({username:req.session.username},{status:"MET"});
         const getBidder=await CurrentRide.find({username:req.session.username});
         const provider=new HDwalletprovider(
-            "ccdddeb92b1f4367e837ca8adf3fd128a433b4737960013946b2d18263ea7781",
+            "...",
             'https://sepolia.infura.io/v3/3bd9ec3cd7924268a521a9ab04f95da8'
          );
         const web3=new Web3(provider);
